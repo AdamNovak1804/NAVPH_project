@@ -1,35 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody playerRb;
-    public bool doubleJumpEnabled = false;
+    public Rigidbody body;
+    public int maxJumpCount = 2;
     public float speed = 3.0f;
     public float jumpForce = 5.0f;
-    public float gravityModifier = 1.5f;
-    private int jumpCount = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        playerRb = GetComponent<Rigidbody>();
-    }
+    private int jumpCount = 0;
 
     // Update is called once per frame
     void Update()
     {
         // Jumping
-        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 2) {
-            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            jumpCount += 2;
-            Debug.Log("Im jumping");
-            if (doubleJumpEnabled) {
-                jumpCount -= 1;
-                Debug.Log("Im trying double jump");
-            }
-            
+        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumpCount)
+        {
+            jumpCount += 1;
+            body.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
 
         // WASD movement
@@ -48,11 +35,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) {
             transform.position -= transform.right * Time.deltaTime * speed;
         }
-
-
     }
 
-    private void OnCollisionEnter(Collision other) {
+    private void OnCollisionEnter(Collision collision)
+    {
         jumpCount = 0;
     }
 }
