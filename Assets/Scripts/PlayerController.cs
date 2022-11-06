@@ -83,5 +83,20 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         jumpCount = 0;
+
+        if (collision.transform.name == "MovingPlatform") 
+        {
+            Debug.Log("Collision with platform");
+            transform.SetParent(collision.transform);
+        }
+    }
+
+    private void OnCollisionExit(Collision other) 
+    {
+        if (other.transform.name == "MovingPlatform") 
+        {
+            Debug.Log("Leaving platform");
+            transform.SetParent(null);
+        }    
     }
 }
