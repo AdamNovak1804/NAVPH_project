@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private int health = 5;
+    public float damage = 0f;
+    private float health = 5f;
     private int score = 0;
     private int ammo = 0;
     //private string powerUp = "none";
@@ -36,13 +37,23 @@ public class Player : MonoBehaviour
         score -= 1;
     }
 
-    public void DrainHealth(int value) 
+    public void DrainHealth(float value) 
     {
         health -= value;
+
+        if (health < 0f) 
+        {
+            Debug.Log("Player Dies");
+        }
     }
 
-    public void AddHealth(int value) 
+    public void AddHealth(float value) 
     {
         health += value;
+    }
+
+    public float GetDamage() 
+    {
+        return damage;
     }
 }
