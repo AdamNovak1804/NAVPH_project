@@ -1,40 +1,14 @@
 fileFormatVersion: 2
-guid: 45801c9bdd696884785d3662411d7357
+guid: 0480461bf5dae8d4fb7969045887693b
 ModelImporter:
   serializedVersion: 21100
-  internalIDToNameTable:
-  - first:
-      74: -982115091633673366
-    second: Armature|Death
-  - first:
-      74: -8945691123924629249
-    second: Armature|Idle
-  - first:
-      74: 1079665108409675491
-    second: Armature|Jump
-  - first:
-      74: 7630385078010506296
-    second: Armature|Meelee
-  - first:
-      74: 7332139420686511986
-    second: Armature|Reload
-  - first:
-      74: -7453387558714718212
-    second: Armature|Shoot
-  - first:
-      74: -4274770991410265338
-    second: Armature|Walking
+  internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material
-    second: {fileID: 2100000, guid: c6ad9ba8753d9d649bda37412926a09a, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.001
-    second: {fileID: 2100000, guid: c7c5bc33fd7650b419131306f9e5fe34, type: 2}
+      name: Background
+    second: {fileID: 2100000, guid: a69a8af16b95fe549adc06c2221b9091, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -119,11 +93,11 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 1
+    hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 1
+  animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
