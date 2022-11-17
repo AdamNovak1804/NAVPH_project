@@ -14,9 +14,9 @@ public class CameraController : MonoBehaviour
     public GameObject player;
 
     public float minDist = 7.0f;
-    public float maxDist = 7.0f;
+    public float maxDist = 8.0f;
 
-    public float steps = 10.0f;
+    public float steps = 20.0f;
 
     public float angle = 35.0f;
 
@@ -24,8 +24,6 @@ public class CameraController : MonoBehaviour
     
     int currIP = 0;
     float time = 0.0f;
-
-    Vector3 lookAt;
 
     List<(Vector3, int)> keyPositions = new List<(Vector3, int)>();
     List<Vector3> ipPositions = new List<Vector3>();
@@ -52,8 +50,6 @@ public class CameraController : MonoBehaviour
             keyPositions.Add((obj.transform.position, obj.GetComponent<Rails>().number));
         }
 
-        
-
         keyPositions = keyPositions.OrderBy(t => t.Item2).ToList();
        
 
@@ -66,7 +62,7 @@ public class CameraController : MonoBehaviour
         fwd = ipPositions[currIP + 1] - this.transform.position;
         this.transform.rotation = Quaternion.LookRotation(fwd, Vector3.up) * Quaternion.Euler(angle, 0, 0);
 
-        currentRot = Quaternion.LookRotation(this.transform.forward, Vector3.up) * Quaternion.Euler(angle, 0, 0);
+        currentRot = this.transform.rotation;
         nextRot = Quaternion.LookRotation(ipPositions[currIP + 2] - ipPositions[currIP + 1], Vector3.up) * Quaternion.Euler(angle, 0, 0);
     }
 
@@ -115,7 +111,9 @@ public class CameraController : MonoBehaviour
         Debug.Log(currentRot);
         Debug.Log(nextRot);
 
-        this.transform.rotation = Quaternion.Slerp(currentRot, nextRot, time / (dist / speed));
+        Debug.Log(Quaternion.Lerp(currentRot, nextRot, time / (dist / speed)));
+
+        this.transform.rotation = Quaternion.Lerp(currentRot, nextRot, time / (dist / speed));
                 
 
         if (time / (dist / speed) > 1)

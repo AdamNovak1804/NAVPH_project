@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        forwardVector = camera.GetComponent<CameraController>().transform.forward.normalized;
+        forwardVector = camera.GetComponent<CameraController>().fwd.normalized;
 
         Vector3 direction = transform.forward;
 
