@@ -1,7 +1,11 @@
+using System.Numerics;
 using UnityEngine;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject camera;
     public int health = 3;
     public int ammo = 0;
 
@@ -16,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     private Quaternion actRot;
 
+    Vector3 forwardVector;
     void Start()
     {
         anim = GetComponent<Animation>();
@@ -25,6 +30,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        forwardVector = camera.GetComponent<CameraController>().fwd.normalized;
+
         Vector3 direction = transform.forward;
 
         if (anim.isPlaying.Equals(false) && jumpCount == 0)
@@ -47,26 +54,26 @@ public class PlayerController : MonoBehaviour
         // WASD movement
         if (Input.GetKey(KeyCode.W))
         {
-            direction.z = 1;
-            transform.Translate(new Vector3(0, 0, 1) * speed * Time.deltaTime, Space.World);
+            direction = forwardVector;
+            transform.Translate(forwardVector * speed * Time.deltaTime, Space.World);
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            direction.z = -1;
-            transform.Translate(new Vector3(0, 0, -1) * speed * Time.deltaTime, Space.World);
+            direction = -forwardVector;
+            transform.Translate(-forwardVector * speed * Time.deltaTime, Space.World);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            direction.x = 1;
-            transform.Translate(new Vector3(1, 0, 0) * speed * Time.deltaTime, Space.World);
+            direction = Quaternion.Euler(0, 90, 0) * forwardVector;
+            transform.Translate(Quaternion.Euler(0, 90, 0) * forwardVector * speed * Time.deltaTime, Space.World);
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            direction.x = -1;
-            transform.Translate(new Vector3(-1, 0, 0) * speed * Time.deltaTime, Space.World);
+            direction = Quaternion.Euler(0, -90, 0) * forwardVector;
+            transform.Translate(Quaternion.Euler(0, -90, 0) * forwardVector * speed * Time.deltaTime, Space.World);
         }
 
         direction.y = 0;
