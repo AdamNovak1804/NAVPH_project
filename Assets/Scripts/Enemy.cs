@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
     public float damage = 0f;
 
     public float armor = 0f;
+
+    public float dyingTime = 0.5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,18 +20,20 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    public void takeDamage(float value) 
-    {
-        health -= (value - armor);
-
         if (health <= 0f) 
         {
-            // Process death
-            this.gameObject.SetActive(false);
-            Object.Destroy(this.gameObject);
+            dyingTime -= Time.deltaTime;
+            if (dyingTime <= 0f) 
+            {
+                // Process death
+                this.gameObject.SetActive(false);
+                Object.Destroy(this.gameObject);
+            }
         }
+    }
+
+    public void TakeDamage(float value) 
+    {
+        health -= (value - armor);
     }
 }
