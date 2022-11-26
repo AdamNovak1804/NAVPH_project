@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public GameObject camera;
     public Transform pointOfMeleeAttack;
     public float rangeOfMeleeAttack = 0.5f;
+
+    public float rangeOfScan = 10f;
     public LayerMask enemyLayers;
 
     private Player player;
@@ -26,6 +28,13 @@ public class PlayerController : MonoBehaviour
     private float isAttacking = 0f;
 
     private float meleeDamage;
+
+    private bool enemyLocked = false;
+    private Vector3 closestEnemy;
+
+    private GameObject target;
+
+    private GameObject targetInstance;
 
     private Quaternion actRot;
 
@@ -97,6 +106,20 @@ public class PlayerController : MonoBehaviour
             anim.Play(actAnim);
         }
 
+        if (Input.GetKeyDown(KeyCode.L)) 
+        {
+            if (!enemyLocked) 
+            {
+                LocateEnemy();
+            } 
+            else 
+            {
+                enemyLocked = false;
+            }
+
+
+        }
+
         if (Input.GetKeyDown(KeyCode.J) && isAttacking <= 0f) 
         {
             isAttacking = 1f;
@@ -164,13 +187,51 @@ public class PlayerController : MonoBehaviour
         // Set better limits when projectiles are finished and speed is decided
         var obj =  Object.Instantiate(projectile.gameObject, pointOfMeleeAttack.position, Quaternion.identity);
         Projectile proj = (Projectile) obj.gameObject.GetComponent<Projectile>();
-        proj.ShootTowards(pointOfMeleeAttack, pointOfMeleeAttack.position + new Vector3(0,0,20));
+        if (enemyLocked) 
+        {
+            proj.ShootTowards(pointOfMeleeAttack, closestEnemy);
+            enemyLocked = false;
+        } else 
+        {
+            proj.ShootTowards(pointOfMeleeAttack, pointOfMeleeAttack.position + new Vector3(0,0,20));
+        }
+    }
+
+    private void LocateEnemy() 
+    {
+        Collider[] enemies = Physics.OverlapSphere(transform.position, rangeOfScan, enemyLayers);
+
+        if (enemies != null && enemies.Length != 0) 
+        {
+            bool locatedFirst = false;
+            foreach (Collider enemy in enemies) 
+            {
+                Debug.Log("Found" + enemy.name);
+                Enemy enemyScript = (Enemy) enemy.GetComponent<Enemy>();
+                if (enemyScript != null) 
+                {
+                    if (!locatedFirst) 
+                    {
+                        locatedFirst = true;
+                        enemyLocked = true;
+                        closestEnemy = enemy.gameObject.transform.position;
+                        continue;
+                    }
+                    if (Vector3.Distance(transform.position, closestEnemy) > Vector3.Distance(transform.position, enemy.gameObject.transform.position))
+                    {
+                        closestEnemy = enemy.gameObject.transform.position;
+                    }
+                }
+            }
+
+        }
     }
 
     private void OnDrawGizmosSelected() {
         if (pointOfMeleeAttack != null) 
         {
             Gizmos.DrawWireSphere(pointOfMeleeAttack.position, rangeOfMeleeAttack);
+            Gizmos.DrawWireSphere(transform.position, rangeOfScan);
         }
     }
 
