@@ -11,6 +11,10 @@ public class Enemy : MonoBehaviour
     public float armor = 0f;
 
     public float dyingTime = 0.5f;
+
+    public GameObject target;
+
+    public bool isTargeted;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,5 +39,15 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float value) 
     {
         health -= (value - armor);
+    }
+
+    public void MakeTargeted() 
+    {
+        
+    }
+
+    public void MakeUntargeted() 
+    {
+
     }
 }

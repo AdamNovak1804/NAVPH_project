@@ -32,9 +32,9 @@ public class PlayerController : MonoBehaviour
     private bool enemyLocked = false;
     private Vector3 closestEnemy;
 
-    private GameObject target;
+    public GameObject target;
 
-    private GameObject targetInstance;
+    private GameObject targetedEnemy;
 
     private Quaternion actRot;
 
@@ -115,9 +115,12 @@ public class PlayerController : MonoBehaviour
             else 
             {
                 enemyLocked = false;
+                if (targetedEnemy != null) 
+                {
+                    targetedEnemy.SetActive(false);
+                    Object.Destroy(targetedEnemy);
+                }
             }
-
-
         }
 
         if (Input.GetKeyDown(KeyCode.J) && isAttacking <= 0f) 
@@ -187,13 +190,18 @@ public class PlayerController : MonoBehaviour
         // Set better limits when projectiles are finished and speed is decided
         var obj =  Object.Instantiate(projectile.gameObject, pointOfMeleeAttack.position, Quaternion.identity);
         Projectile proj = (Projectile) obj.gameObject.GetComponent<Projectile>();
+        if (enemyLocked && targetedEnemy != null) 
+        {
+            targetedEnemy.SetActive(false);
+            Object.Destroy(targetedEnemy);
+        }
         if (enemyLocked) 
         {
             proj.ShootTowards(pointOfMeleeAttack, closestEnemy);
             enemyLocked = false;
         } else 
         {
-            proj.ShootTowards(pointOfMeleeAttack, pointOfMeleeAttack.position + new Vector3(0,0,20));
+            proj.ShootTowards(pointOfMeleeAttack, pointOfMeleeAttack.position + transform.forward * 50f);
         }
     }
 
@@ -206,7 +214,6 @@ public class PlayerController : MonoBehaviour
             bool locatedFirst = false;
             foreach (Collider enemy in enemies) 
             {
-                Debug.Log("Found" + enemy.name);
                 Enemy enemyScript = (Enemy) enemy.GetComponent<Enemy>();
                 if (enemyScript != null) 
                 {
@@ -223,8 +230,16 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
-
+            if (enemyLocked) 
+            {
+                targetedEnemy = CreateTarget();
+            }
         }
+    }
+
+    private GameObject CreateTarget() 
+    {
+        return Object.Instantiate(target, closestEnemy + new Vector3(0,3,0), Quaternion.identity);
     }
 
     private void OnDrawGizmosSelected() {

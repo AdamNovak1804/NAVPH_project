@@ -244,6 +244,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1719082956}
     - target: {fileID: 8667067104275016183, guid: 6f64e72400711334fb138c488b47278d, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1929982850322090281, guid: 0eca455bf2f484f44b8c72085506e5d6, type: 3}
+    - target: {fileID: 8667067104275016183, guid: 6f64e72400711334fb138c488b47278d, type: 3}
       propertyPath: projectile
       value: 
       objectReference: {fileID: 9176935318651262286, guid: a167f35152783e043bb7139211ca8f30, type: 3}
@@ -751,6 +755,8 @@ MonoBehaviour:
   damage: 0
   armor: 0
   dyingTime: 0.5
+  target: {fileID: 0}
+  isTargeted: 0
 --- !u!136 &1850224495
 CapsuleCollider:
   m_ObjectHideFlags: 0
