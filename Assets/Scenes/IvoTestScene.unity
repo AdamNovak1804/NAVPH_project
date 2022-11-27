@@ -666,6 +666,13 @@ MonoBehaviour:
     volume: 0.701
     pitch: 1.06
     loop: 0
+    audioSource: {fileID: 0}
+  - name: CoinPickup
+    audioClip: {fileID: 8300000, guid: 1b1971c1aee2612429d734a60410f430, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
 --- !u!1 &1719082956
 GameObject:
   m_ObjectHideFlags: 0
