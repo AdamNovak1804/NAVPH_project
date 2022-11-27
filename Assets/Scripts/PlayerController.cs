@@ -38,12 +38,15 @@ public class PlayerController : MonoBehaviour
 
     private Quaternion actRot;
 
+    private AudioManager audioManager;
+
     Vector3 forwardVector;
     void Start()
     {
         anim = GetComponent<Animation>();
         body = GetComponent<Rigidbody>();
         player = GetComponent<Player>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -190,6 +193,7 @@ public class PlayerController : MonoBehaviour
         // Set better limits when projectiles are finished and speed is decided
         var obj =  Object.Instantiate(projectile.gameObject, pointOfMeleeAttack.position, Quaternion.identity);
         Projectile proj = (Projectile) obj.gameObject.GetComponent<Projectile>();
+        audioManager.Play("PlayerLaserShot");
         if (enemyLocked && targetedEnemy != null) 
         {
             targetedEnemy.SetActive(false);
