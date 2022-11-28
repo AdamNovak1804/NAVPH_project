@@ -47,9 +47,9 @@ public class PlatformMovement : MonoBehaviour
             }
             else 
             {
-                positions.Add(transform.position + new Vector3(space, 0, 0));
+                positions.Add(transform.position + new Vector3(space, 0, -space));
                 positions.Add(transform.position + new Vector3(0, 0, 2 * -space));
-                positions.Add(transform.position + new Vector3(-space, 0, 0));
+                positions.Add(transform.position + new Vector3(-space, 0, -space));
             }
         }
         if (startingPos == StartingPositions.bottom) 

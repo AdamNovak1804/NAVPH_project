@@ -17,14 +17,11 @@ public class BreakableScript : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision other) 
+
+    public void DestroyObject() 
     {
-        if (other.transform.name == "Astronaut") 
-        {
-            var player = (Player) other.transform.gameObject.GetComponent(typeof(Player));
-            Object.Instantiate(spawnItem.gameObject, transform.position, Quaternion.identity);
-            this.gameObject.SetActive(false);
-            Object.Destroy(this.gameObject);
-        }
+        Object.Instantiate(spawnItem.gameObject, transform.position, Quaternion.identity);
+        this.gameObject.SetActive(false);
+        Object.Destroy(this.gameObject);
     }
 }
