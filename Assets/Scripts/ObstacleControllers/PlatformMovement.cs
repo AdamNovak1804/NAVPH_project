@@ -36,68 +36,52 @@ public class PlatformMovement : MonoBehaviour
     {
         positions = new List<Vector3>();
         positions.Add(transform.position);
+        float xCoor = space;
+        float zCoor = space;
+        // This could be shortened, but I decided to keep it this way so it is easier to map
+        // platforms to their positions
         if (startingPos == StartingPositions.top) 
         {
-            
             if (rotationDirection == RotationOptions.left) 
             {
-                positions.Add(transform.position + new Vector3(-space, 0, -space));
-                positions.Add(transform.position + new Vector3(0, 0, -2 * space));
-                positions.Add(transform.position + new Vector3(space, 0, -space));
+                xCoor *= -1;
             }
-            else 
-            {
-                positions.Add(transform.position + new Vector3(space, 0, -space));
-                positions.Add(transform.position + new Vector3(0, 0, 2 * -space));
-                positions.Add(transform.position + new Vector3(-space, 0, -space));
-            }
+            positions.Add(transform.position + new Vector3(xCoor, 0, -zCoor));
+            positions.Add(transform.position + new Vector3(0, 0, 2 * -zCoor));
+            positions.Add(transform.position + new Vector3(-xCoor, 0, -zCoor));
         }
         if (startingPos == StartingPositions.bottom) 
         {
             if (rotationDirection == RotationOptions.left) 
             {
-                positions.Add(transform.position + new Vector3(-space, 0, space));
-                positions.Add(transform.position + new Vector3(0, 0, 2 * space));
-                positions.Add(transform.position + new Vector3(space, 0, space));
+                xCoor *= -1;
             }
-            else 
-            {
-                positions.Add(transform.position + new Vector3(space, 0, space));
-                positions.Add(transform.position + new Vector3(0, 0, 2 * space));
-                positions.Add(transform.position + new Vector3(-space, 0, space));
-            }
+            positions.Add(transform.position + new Vector3(xCoor, 0, zCoor));
+            positions.Add(transform.position + new Vector3(0, 0, 2 * zCoor));
+            positions.Add(transform.position + new Vector3(-xCoor, 0, zCoor));
         }
 
         if (startingPos == StartingPositions.right) 
         {
             if (rotationDirection == RotationOptions.left) 
             {
-                positions.Add(transform.position + new Vector3(-space, 0, space));
-                positions.Add(transform.position + new Vector3(-2 * space, 0, 0));
-                positions.Add(transform.position + new Vector3(-space, 0, -space));
+                zCoor *= -1;
             }
-            else 
-            {
-                positions.Add(transform.position + new Vector3(-space, 0, -space));
-                positions.Add(transform.position + new Vector3(-2 * space, 0, 0));
-                positions.Add(transform.position + new Vector3(-space, 0, space));
-            }
+            positions.Add(transform.position + new Vector3(-xCoor, 0, -zCoor));
+            positions.Add(transform.position + new Vector3(2 * -xCoor, 0, 0));
+            positions.Add(transform.position + new Vector3(-xCoor, 0, zCoor));
         }
 
         if (startingPos == StartingPositions.left) 
         {
             if (rotationDirection == RotationOptions.left) 
             {
-                positions.Add(transform.position + new Vector3(space, 0, -space));
-                positions.Add(transform.position + new Vector3(2 * space, 0, 0));
-                positions.Add(transform.position + new Vector3(space, 0, space));
+                zCoor *= -1;
             }
-            else 
-            {
-                positions.Add(transform.position + new Vector3(space, 0, space));
-                positions.Add(transform.position + new Vector3(2 * space, 0, 0));
-                positions.Add(transform.position + new Vector3(space, 0, -space));
-            }
+            positions.Add(transform.position + new Vector3(xCoor, 0, zCoor));
+            positions.Add(transform.position + new Vector3(2 * xCoor, 0, 0));
+            positions.Add(transform.position + new Vector3(xCoor, 0, -zCoor));
+
         }
         nextPos = positions[currentIndex];
     }
