@@ -74,12 +74,19 @@ public class CameraController : MonoBehaviour
             var dist = Math.Sqrt(Math.Pow(Vector3.Distance(player.transform.position, this.transform.position), 2)
             - Math.Pow((this.transform.position.y - player.transform.position.y), 2));
 
-            if (dist >= maxDist)
+            var angle = (Math.PI / 180) * Math.Abs(Vector2.Angle(new Vector2(player.transform.position.x - transform.position.x, player.transform.position.z - transform.position.z), new Vector2(fwd.x, fwd.z)));
+
+            var trueDist = Math.Cos(angle) * dist;
+            Debug.Log(angle);
+            Debug.Log(dist);
+            Debug.Log(trueDist);
+
+            if (trueDist >= maxDist)
             {
                 Debug.Log("moving forward");
                 moveCamera(1);
             }
-            else if (dist <= minDist && currIP - 1 >= 0)
+            else if (trueDist <= minDist && currIP - 1 >= 0)
             {
                 Debug.Log("moving backwards");
                 moveCamera(-1);
@@ -107,11 +114,6 @@ public class CameraController : MonoBehaviour
         var dist = Vector3.Distance(fromPos, ipPositions[currIP + currDir]);
 
         this.transform.position = Vector3.Lerp(fromPos, ipPositions[currIP + currDir], time / (dist / speed));
-
-        Debug.Log(currentRot);
-        Debug.Log(nextRot);
-
-        Debug.Log(Quaternion.Lerp(currentRot, nextRot, time / (dist / speed)));
 
         this.transform.rotation = Quaternion.Lerp(currentRot, nextRot, time / (dist / speed));
                 
