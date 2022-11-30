@@ -13,9 +13,11 @@ public class CollectibleScript : MonoBehaviour
 
     private bool isCollectible = false;
 
+    private AudioManager audioManager;
+
     void Start()
     {
-        
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -36,6 +38,10 @@ public class CollectibleScript : MonoBehaviour
         {
             var player = (Player) other.transform.gameObject.GetComponent(typeof(Player));
             player.AddScore(scoreAddition);
+            if (scoreAddition > 0) 
+            {
+                audioManager.Play("CoinPickup");
+            }
             player.AddAmmo(ammoAddition);
             player.AddHealth(healthAddition);
             this.gameObject.SetActive(false);
