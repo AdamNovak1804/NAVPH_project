@@ -64,9 +64,8 @@ public class PlayerController : MonoBehaviour
             actAnim = "Armature|Idle";
             anim.Play(actAnim);
         }
-        // REWORK CONTROLS SYSTEM
-        // Jumping
-        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumpCount)
+
+        if (Input.GetButtonDown("Jump") && jumpCount < maxJumpCount)
         {
             actAnim = "Armature|Jump";
             anim.Stop(actAnim);
@@ -77,25 +76,25 @@ public class PlayerController : MonoBehaviour
         }
 
         // WASD movement
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetButton("Forward"))
         {
             direction = forwardVector;
             transform.Translate(forwardVector * speed * Time.deltaTime, Space.World);
         }
 
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetButton("Backward"))
         {
             direction = -forwardVector;
             transform.Translate(-forwardVector * speed * Time.deltaTime, Space.World);
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetButton("Right"))
         {
             direction = Quaternion.Euler(0, 90, 0) * forwardVector;
             transform.Translate(Quaternion.Euler(0, 90, 0) * forwardVector * speed * Time.deltaTime, Space.World);
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetButton("Left"))
         {
             direction = Quaternion.Euler(0, -90, 0) * forwardVector;
             transform.Translate(Quaternion.Euler(0, -90, 0) * forwardVector * speed * Time.deltaTime, Space.World);
@@ -103,13 +102,13 @@ public class PlayerController : MonoBehaviour
 
         direction.y = 0;
 
-        if (Input.GetKey(KeyCode.R))
+        if (Input.GetButtonDown("Reload"))
         {
             actAnim = "Armature|Reload";
             anim.Play(actAnim);
         }
 
-        if (Input.GetKeyDown(KeyCode.L)) 
+        if (Input.GetButtonDown("Lock")) 
         {
             if (!enemyLocked) 
             {
@@ -126,7 +125,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.J) && isAttacking <= 0f) 
+        if (Input.GetButtonDown("MeleeAttack") && isAttacking <= 0f) 
         {
             isAttacking = 1f;
             actAnim = "Armature|Meelee";
@@ -134,7 +133,7 @@ public class PlayerController : MonoBehaviour
             Attack();
         }
 
-        if (Input.GetKeyDown(KeyCode.K) && isAttacking <= 0f) 
+        if (Input.GetButtonDown("Shoot") && isAttacking <= 0f) 
         {
             isAttacking = 1.2f;
             actAnim = "Armature|Shoot";
