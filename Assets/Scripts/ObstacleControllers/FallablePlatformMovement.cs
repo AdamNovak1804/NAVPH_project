@@ -40,12 +40,12 @@ public class FallablePlatformMovement : MonoBehaviour
 
     private void moveUp() 
     {
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0, 5, 0), 1000f);
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0, 5, 0),Time.deltaTime * 5f);
     }
 
     private void moveDown() 
     {
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0, -5, 0), 1000f);
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(0, -5, 0),Time.deltaTime * 5f);
     }
 
     private void OnCollisionEnter(Collision other) {
