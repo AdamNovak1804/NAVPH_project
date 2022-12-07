@@ -30,6 +30,8 @@ public class ObstacleMovement : MonoBehaviour
     public float speed;
     public float offset = 0.1f;
 
+    public bool startLeft = false;
+
     private float dirSpeed;
     private Vector3 movement;
     private Vector3 startVec;
@@ -42,6 +44,10 @@ public class ObstacleMovement : MonoBehaviour
         movement = directions[direction];
         startVec = transform.position + (movement * start);
         endVec = transform.position + (movement * end);
+        if (startLeft) 
+        {
+            dirSpeed *= -1;
+        }
     }
 
     // Update is called once per frame

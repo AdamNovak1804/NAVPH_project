@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour
             if (dyingTime <= 0f) 
             {
                 // Process death
+                Debug.Log(gameObject.name + " should be dying");
                 this.gameObject.SetActive(false);
                 Object.Destroy(this.gameObject);
             }
