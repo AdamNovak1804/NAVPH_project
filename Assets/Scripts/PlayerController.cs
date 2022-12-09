@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
 
     private float isAttacking = 0f;
 
+    private bool isAlreadyDying = false;
+
     private float isDying = 1f;
 
     private float meleeDamage;
@@ -64,6 +66,7 @@ public class PlayerController : MonoBehaviour
         {
             // Process death
             PlayAnim("Armature|Death");
+            isAlreadyDying = true;
             isDying -= Time.deltaTime;
         }
 
@@ -87,6 +90,10 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && jumpCount < maxJumpCount)
         {
+            if (isAlreadyDying) 
+            {
+                return;
+            }
             actAnim = "Armature|Jump";
             anim.Stop(actAnim);
             anim.Play(actAnim);
@@ -98,6 +105,10 @@ public class PlayerController : MonoBehaviour
         // WASD movement
         if (Input.GetButton("Forward"))
         {
+            if (isAlreadyDying) 
+            {
+                return;
+            }
             PlayAnim("Armature|Walking");
             direction = forwardVector;
             transform.Translate(forwardVector * speed * Time.deltaTime, Space.World);
@@ -105,6 +116,10 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButton("Backward"))
         {
+            if (isAlreadyDying) 
+            {
+                return;
+            }
             PlayAnim("Armature|Walking");
             direction = -forwardVector;
             transform.Translate(-forwardVector * speed * Time.deltaTime, Space.World);
@@ -112,6 +127,10 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButton("Right"))
         {
+            if (isAlreadyDying) 
+            {
+                return;
+            }
             PlayAnim("Armature|Walking");
             direction = Quaternion.Euler(0, 90, 0) * forwardVector;
             transform.Translate(Quaternion.Euler(0, 90, 0) * forwardVector * speed * Time.deltaTime, Space.World);
@@ -119,6 +138,10 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButton("Left"))
         {
+            if (isAlreadyDying) 
+            {
+                return;
+            }
             PlayAnim("Armature|Walking");
             direction = Quaternion.Euler(0, -90, 0) * forwardVector;
             transform.Translate(Quaternion.Euler(0, -90, 0) * forwardVector * speed * Time.deltaTime, Space.World);
@@ -157,9 +180,12 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Shoot") && isAttacking <= 0f) 
         {
-            isAttacking = 1.2f;
-            PlayAnim("Armature|Shoot");
-            RangeAttack();
+            if (player.GetAmmo() >= 1f) 
+            {
+                isAttacking = 1.2f;
+                PlayAnim("Armature|Shoot");
+                RangeAttack();
+            }
         }
 
         transform.forward = direction;
@@ -212,6 +238,7 @@ public class PlayerController : MonoBehaviour
         // Set better limits when projectiles are finished and speed is decided
         var obj =  Object.Instantiate(projectile.gameObject, pointOfMeleeAttack.position, Quaternion.identity);
         Projectile proj = (Projectile) obj.gameObject.GetComponent<Projectile>();
+        player.UseAmmo();
         audioManager.Play("PlayerLaserShot");
         if (enemyLocked && targetedEnemy != null) 
         {
@@ -262,7 +289,7 @@ public class PlayerController : MonoBehaviour
 
     private GameObject CreateTarget() 
     {
-        return Object.Instantiate(target, closestEnemy + new Vector3(0,3,0), Quaternion.identity);
+        return Object.Instantiate(target, closestEnemy + new Vector3(0,2,0), Quaternion.Euler(90,0,0));
     }
 
     private void OnDrawGizmosSelected() {
