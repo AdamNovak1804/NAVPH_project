@@ -5,8 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float damage = 0f;
-    private float health = 5f;
-    private int score = 0;
+    public float health = 5f;
+    public int score = 0;
     private int ammo = 0;
     //private string powerUp = "none";
     // Start is called before the first frame update
@@ -55,5 +55,10 @@ public class Player : MonoBehaviour
     public float GetDamage() 
     {
         return damage;
+    }
+
+    public float GetHealth() 
+    {
+        return health;
     }
 }

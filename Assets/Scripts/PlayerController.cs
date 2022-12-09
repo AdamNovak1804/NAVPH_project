@@ -1,12 +1,18 @@
 using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
+
 public class PlayerController : MonoBehaviour
 {
-    public GameObject camera;
+    const string DEATH_ANIMATION = "Armature|Death";
+    const string WALKING_ANIMATION = "Armature|Walking";
+
+    const string IDLE_ANIMATION = "Armature|Idle";
+    public GameObject mainCamera;
     public Transform pointOfMeleeAttack;
     public float rangeOfMeleeAttack = 0.5f;
 
@@ -27,6 +33,8 @@ public class PlayerController : MonoBehaviour
     private int jumpCount = 0;
 
     private float isAttacking = 0f;
+
+    private float isDying = 1f;
 
     private float meleeDamage;
 
@@ -60,6 +68,18 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (player != null && (player.GetHealth() <= 0f || transform.position.y <= -8f))
+        {
+            // Process death
+            PlayAnim("Armature|Death");
+            isDying -= Time.deltaTime;
+        }
+
+        if (isDying <= 0f) 
+        {
+            SceneManager.LoadScene("IvoTestMenuScene");
+        }
+
         if (isAttacking > 0f) {
             isAttacking -= Time.deltaTime;
         }
@@ -73,19 +93,21 @@ public class PlayerController : MonoBehaviour
 
         if (direction.magnitude > 0.1f)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + camera.transform.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + GetComponent<Camera>().transform.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
         }
+
         if (controller.isGrounded)
         {
             gravity = 0;
             jumpCount = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumpCount)
+
+        if (Input.GetButtonDown("Jump") && jumpCount < maxJumpCount)
         {
             actAnim = "Armature|Jump";
             anim.Stop(actAnim);
@@ -112,13 +134,12 @@ public class PlayerController : MonoBehaviour
         }
         
 
-        if (Input.GetKey(KeyCode.R))
+        if (Input.GetButtonDown("Reload"))
         {
-            actAnim = "Armature|Reload";
-            anim.Play(actAnim);
+            PlayAnim("Armature|Reload");
         }
 
-        if (Input.GetKeyDown(KeyCode.L)) 
+        if (Input.GetButtonDown("Lock")) 
         {
             if (!enemyLocked) 
             {
@@ -135,19 +156,17 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.J) && isAttacking <= 0f) 
+        if (Input.GetButtonDown("MeleeAttack") && isAttacking <= 0f) 
         {
             isAttacking = 1f;
-            actAnim = "Armature|Meelee";
-            anim.Play(actAnim);
+            PlayAnim("Armature|Meelee");
             Attack();
         }
 
-        if (Input.GetKeyDown(KeyCode.K) && isAttacking <= 0f) 
+        if (Input.GetButtonDown("Shoot") && isAttacking <= 0f) 
         {
             isAttacking = 1.2f;
-            actAnim = "Armature|Shoot";
-            anim.Play(actAnim);
+            PlayAnim("Armature|Shoot");
             RangeAttack();
         }
     }
@@ -184,17 +203,16 @@ public class PlayerController : MonoBehaviour
         if (enemies != null && enemies.Length != 0) 
         {
             var enemy = enemies[0];
-            Debug.Log("Hitted" + enemy.name);
             Enemy enemyScript = (Enemy) enemy.GetComponent<Enemy>();
             if (enemyScript != null)
             {
-                Debug.Log(enemy.name + " took " + player.GetDamage() + " damage.");
                 enemyScript.TakeDamage(player.GetDamage());
                 return;
             }
             BreakableScript breakableScript = (BreakableScript) enemy.GetComponent<BreakableScript>();
             if (breakableScript != null) 
             {
+                audioManager.Play("BreakObject");
                 breakableScript.DestroyObject();
             }
         }
@@ -264,6 +282,29 @@ public class PlayerController : MonoBehaviour
             Gizmos.DrawWireSphere(pointOfMeleeAttack.position, rangeOfMeleeAttack);
             Gizmos.DrawWireSphere(transform.position, rangeOfScan);
         }
+    }
+
+    private void PlayAnim(string s) 
+    {
+        if (actAnim == DEATH_ANIMATION) 
+        {
+            // When dying, nothings else can be played
+            return;
+        }
+        if (s == DEATH_ANIMATION) 
+        {
+            // Playing death stops everything
+            anim.Stop();
+        }
+        if (s == WALKING_ANIMATION) 
+        {
+            if (actAnim == IDLE_ANIMATION) 
+            {
+                anim.Stop();
+            }
+        }
+        actAnim = s;
+        anim.Play(actAnim);
     }
 
 }
