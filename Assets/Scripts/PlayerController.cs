@@ -1,4 +1,5 @@
 using System.Numerics;
+using Unity.VisualScripting;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
@@ -16,13 +17,13 @@ public class PlayerController : MonoBehaviour
 
     public int maxJumpCount = 2;
     public float speed = 3.0f;
-    public float jumpForce = 5.0f;
+    public float jumpForce = 3.0f;
 
     public GameObject projectile;
 
     private string actAnim = "";
     private Animation anim;
-    private Rigidbody body;
+  
     private int jumpCount = 0;
 
     private float isAttacking = 0f;
@@ -40,11 +41,18 @@ public class PlayerController : MonoBehaviour
 
     private AudioManager audioManager;
 
+    public CharacterController controller;
+
+    private float turnSmoothVelocity;
+    private float turnSmoothTime = 0.01f;
+
+    private float gravity;
+
     Vector3 forwardVector;
     void Start()
     {
+
         anim = GetComponent<Animation>();
-        body = GetComponent<Rigidbody>();
         player = GetComponent<Player>();
         audioManager = FindObjectOfType<AudioManager>();
     }
@@ -55,17 +63,28 @@ public class PlayerController : MonoBehaviour
         if (isAttacking > 0f) {
             isAttacking -= Time.deltaTime;
         }
-        forwardVector = camera.GetComponent<CameraController>().fwd.normalized;
 
-        Vector3 direction = transform.forward;
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
 
-        if (anim.isPlaying.Equals(false) && jumpCount == 0)
+        Vector3 direction = new Vector3(horizontal, 0f, vertical);
+
+        Vector3 moveDir = new Vector3(0, 0, 0);
+
+        if (direction.magnitude > 0.1f)
         {
-            actAnim = "Armature|Idle";
-            anim.Play(actAnim);
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + camera.transform.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+            moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
         }
-        // REWORK CONTROLS SYSTEM
-        // Jumping
+        if (controller.isGrounded)
+        {
+            gravity = 0;
+            jumpCount = 0;
+        }
+
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumpCount)
         {
             actAnim = "Armature|Jump";
@@ -73,35 +92,25 @@ public class PlayerController : MonoBehaviour
             anim.Play(actAnim);
 
             jumpCount += 1;
-            body.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            gravity = jumpForce;
         }
 
-        // WASD movement
-        if (Input.GetKey(KeyCode.W))
+
+        gravity -= 4f * Time.deltaTime;
+        moveDir.y = gravity;
+
+        moveDir.x *= speed;
+        moveDir.z *= speed;
+
+        controller.Move(moveDir * Time.deltaTime);
+        
+
+        if (anim.isPlaying.Equals(false) && jumpCount == 0)
         {
-            direction = forwardVector;
-            transform.Translate(forwardVector * speed * Time.deltaTime, Space.World);
+            actAnim = "Armature|Idle";
+            anim.Play(actAnim);
         }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            direction = -forwardVector;
-            transform.Translate(-forwardVector * speed * Time.deltaTime, Space.World);
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            direction = Quaternion.Euler(0, 90, 0) * forwardVector;
-            transform.Translate(Quaternion.Euler(0, 90, 0) * forwardVector * speed * Time.deltaTime, Space.World);
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            direction = Quaternion.Euler(0, -90, 0) * forwardVector;
-            transform.Translate(Quaternion.Euler(0, -90, 0) * forwardVector * speed * Time.deltaTime, Space.World);
-        }
-
-        direction.y = 0;
+        
 
         if (Input.GetKey(KeyCode.R))
         {
@@ -141,8 +150,11 @@ public class PlayerController : MonoBehaviour
             anim.Play(actAnim);
             RangeAttack();
         }
+    }
 
-        transform.forward = direction;
+    private void FixedUpdate()
+    {
+        
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -42,18 +42,15 @@ public class CameraController : MonoBehaviour
         var scene = SceneManager.GetActiveScene();
         var rails = GameObject.FindGameObjectsWithTag("CameraRail").ToList();
         
-        Debug.Log(rails.Count());
-
         foreach(var obj in rails)
         {
-            Debug.Log(obj.GetComponent<Rails>().number);
             keyPositions.Add((obj.transform.position, obj.GetComponent<Rails>().number));
         }
 
         keyPositions = keyPositions.OrderBy(t => t.Item2).ToList();
        
 
-        ipPositions = interpolate(keyPositions);
+        ipPositions = Interpolate(keyPositions);
         
 
         this.transform.position = fromPos = ipPositions[currIP];
@@ -77,24 +74,22 @@ public class CameraController : MonoBehaviour
             var angle = (Math.PI / 180) * Math.Abs(Vector2.Angle(new Vector2(player.transform.position.x - transform.position.x, player.transform.position.z - transform.position.z), new Vector2(fwd.x, fwd.z)));
 
             var trueDist = Math.Cos(angle) * dist;
-            Debug.Log(angle);
-            Debug.Log(dist);
-            Debug.Log(trueDist);
+            
 
             if (trueDist >= maxDist)
             {
                 Debug.Log("moving forward");
-                moveCamera(1);
+                MoveCamera(1);
             }
             else if (trueDist <= minDist && currIP - 1 >= 0)
             {
                 Debug.Log("moving backwards");
-                moveCamera(-1);
+                MoveCamera(-1);
             }
         }
     }
 
-    void moveCamera(int newDir)
+    void MoveCamera(int newDir)
     {
         time += Time.deltaTime;
 
@@ -145,7 +140,7 @@ public class CameraController : MonoBehaviour
             nextRot = Quaternion.LookRotation(next, Vector3.up) * Quaternion.Euler(angle, 0, 0);
         }
     }
-    List<Vector3> interpolate(List<(Vector3, int)> positions)
+    List<Vector3> Interpolate(List<(Vector3, int)> positions)
     {
         List<Vector3> interpolated = new List<Vector3>();
         
