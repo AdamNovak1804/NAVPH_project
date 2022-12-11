@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/IvoTestMenuScene.unity
     guid: 5f82d2ad4057e9f43aaeb457ae8dad40
+  - enabled: 1
+    path: Assets/Scenes/IvoFinishLineTestScene.unity
+    guid: 4ae3ad9d80992114fbbe46383b738bfe
   m_configObjects: {}

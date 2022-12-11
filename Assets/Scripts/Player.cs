@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public float maxHealth = 7f;
     public float currentHealth = 5f;
     public int score = 0;
-    private int ammo = 0;
+    public int ammo = 5;
 
     //private string powerUp = "none";
     

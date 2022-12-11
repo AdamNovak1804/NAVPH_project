@@ -20,7 +20,7 @@ public class BreakableScript : MonoBehaviour
 
     public void DestroyObject() 
     {
-        Object.Instantiate(spawnItem.gameObject, transform.position, Quaternion.identity);
+        Object.Instantiate(spawnItem.gameObject, transform.position, Quaternion.Euler(-90,0,0));
         this.gameObject.SetActive(false);
         Object.Destroy(this.gameObject);
     }

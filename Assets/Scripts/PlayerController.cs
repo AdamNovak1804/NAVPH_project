@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
 
     private float isAttacking = 0f;
 
+    private bool shouldMeleeAttack = false;
+
     private bool isAlreadyDying = false;
 
     private float isDying = 1f;
@@ -84,8 +86,7 @@ public class PlayerController : MonoBehaviour
 
         if (anim.isPlaying.Equals(false) && jumpCount == 0)
         {
-            actAnim = "Armature|Idle";
-            anim.Play(actAnim);
+            PlayAnim("Armature|Idle");
         }
 
         if (Input.GetButtonDown("Jump") && jumpCount < maxJumpCount)
@@ -175,7 +176,7 @@ public class PlayerController : MonoBehaviour
         {
             isAttacking = 1f;
             PlayAnim("Armature|Meelee");
-            Attack();
+            shouldMeleeAttack = true;
         }
 
         if (Input.GetButtonDown("Shoot") && isAttacking <= 0f) 
@@ -186,6 +187,16 @@ public class PlayerController : MonoBehaviour
                 PlayAnim("Armature|Shoot");
                 RangeAttack();
             }
+            else 
+            {
+                audioManager.Play("NoAmmo");
+            }
+        }
+
+        if (shouldMeleeAttack && isAttacking <= 0.25f) 
+        {
+            MakeMeleeImpact();
+            shouldMeleeAttack = false;
         }
 
         transform.forward = direction;
@@ -194,11 +205,14 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         jumpCount = 0;
-
         if (collision.transform.name == "MovingPlatform") 
         {
-            Debug.Log("Collision with platform");
             transform.SetParent(collision.transform);
+        }
+
+        if (collision.transform.name == "FinishLine") 
+        {
+            SceneManager.LoadScene("IvoFinishLineTestScene");
         }
     }
 
@@ -206,12 +220,11 @@ public class PlayerController : MonoBehaviour
     {
         if (other.transform.name == "MovingPlatform") 
         {
-            Debug.Log("Leaving platform");
             transform.SetParent(null);
         }    
     }
 
-    private void Attack() 
+    private void MakeMeleeImpact() 
     {
         Collider[] enemies = Physics.OverlapSphere(pointOfMeleeAttack.position, rangeOfMeleeAttack, enemyLayers);
 
@@ -222,6 +235,7 @@ public class PlayerController : MonoBehaviour
             if (enemyScript != null)
             {
                 enemyScript.TakeDamage(player.GetDamage());
+                enemyScript.ApplyPushback(pointOfMeleeAttack.position);
                 return;
             }
             BreakableScript breakableScript = (BreakableScript) enemy.GetComponent<BreakableScript>();
@@ -236,7 +250,7 @@ public class PlayerController : MonoBehaviour
     private void RangeAttack() 
     {
         // Set better limits when projectiles are finished and speed is decided
-        var obj =  Object.Instantiate(projectile.gameObject, pointOfMeleeAttack.position, Quaternion.identity);
+        var obj =  Object.Instantiate(projectile.gameObject, pointOfMeleeAttack.position, Quaternion.Euler(-90,0,0));
         Projectile proj = (Projectile) obj.gameObject.GetComponent<Projectile>();
         player.UseAmmo();
         audioManager.Play("PlayerLaserShot");
@@ -317,6 +331,10 @@ public class PlayerController : MonoBehaviour
             if (actAnim == IDLE_ANIMATION) 
             {
                 anim.Stop();
+            }
+            if (actAnim == "Armature|Meelee") 
+            {
+                return;
             }
         }
         actAnim = s;
