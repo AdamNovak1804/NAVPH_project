@@ -43,7 +43,15 @@ public class CollectibleScript : MonoBehaviour
                 audioManager.Play("CoinPickup");
             }
             player.AddAmmo(ammoAddition);
+            if (ammoAddition > 0) 
+            {
+                audioManager.Play("AmmoPickup");
+            }
             player.AddHealth(healthAddition);
+            if (healthAddition > 0) 
+            {
+                audioManager.Play("HealthPickup");
+            }
             this.gameObject.SetActive(false);
             Object.Destroy(this.gameObject);
         }
