@@ -136,7 +136,10 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        transform.forward = direction;
+        if (playerCombatController.isShooting < 0.03f) 
+        {
+            transform.forward = direction;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

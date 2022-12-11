@@ -19,6 +19,8 @@ public class PlayerCombatController : MonoBehaviour
     [System.NonSerialized]
     public bool shouldMeleeAttack = false;
 
+    public float isShooting = 0.0f;
+
     private bool enemyLocked = false;
     private Vector3 closestEnemy;
 
@@ -37,6 +39,10 @@ public class PlayerCombatController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isShooting > 0f) 
+        {
+            isShooting -= Time.deltaTime;
+        }
         if (isAttacking > 0f) {
             isAttacking -= Time.deltaTime;
         }
@@ -102,7 +108,12 @@ public class PlayerCombatController : MonoBehaviour
         }
         if (enemyLocked) 
         {
+            isShooting = 0.06f;
+            var currentTransform = transform;
+            transform.LookAt(closestEnemy);
             proj.ShootTowards(pointOfMeleeAttack, closestEnemy);
+            //isShooting = false;
+            // transform.forward = currentTransform.forward;
             enemyLocked = false;
         } else 
         {
