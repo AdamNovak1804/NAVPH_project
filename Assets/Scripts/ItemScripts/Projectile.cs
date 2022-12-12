@@ -16,6 +16,8 @@ public class Projectile : MonoBehaviour
 
     private bool targetHit = false;
 
+    public bool isEnemyProjectile = false;
+
     private Vector3 goalPosition;
     // Start is called before the first frame update
     void Start()
@@ -52,11 +54,23 @@ public class Projectile : MonoBehaviour
     public void ShootTowards(Transform startingPosition, Vector3 goalPosition) 
     {
         this.goalPosition = goalPosition;
+        this.transform.LookAt(goalPosition);
+        transform.Rotate(new Vector3(-90,0,0));
         isEnabled = true;
     }
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log("Hit");
+        Debug.Log("Hit" + other.name);
+        if (isEnemyProjectile) 
+        {
+            Player player = (Player) other.GetComponent<Player>();
+            if (player != null) 
+            {
+                player.DrainHealth(10f);
+                this.gameObject.SetActive(false);
+                Object.Destroy(this.gameObject);
+            }
+        }
         Enemy enemy = (Enemy) other.GetComponent<Enemy>();
         if (enemy != null) 
         {   

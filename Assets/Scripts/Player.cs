@@ -5,10 +5,13 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float damage = 0f;
-    public float health = 5f;
+    public float maxHealth = 7f;
+    public float currentHealth = 5f;
     public int score = 0;
-    private int ammo = 0;
+    public int ammo = 5;
+
     //private string powerUp = "none";
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -29,27 +32,34 @@ public class Player : MonoBehaviour
 
     public void AddAmmo(int value) 
     {
-        score += value;
-    }
-
-    public void UseAmmo() 
-    {
-        score -= 1;
-    }
-
-    public void DrainHealth(float value) 
-    {
-        health -= value;
-
-        if (health < 0f) 
-        {
-            Debug.Log("Player Dies");
-        }
+        ammo += value;
+        Debug.LogFormat("Current ammo is {0}", ammo);
     }
 
     public void AddHealth(float value) 
     {
-        health += value;
+        if (currentHealth + value > maxHealth) {
+            currentHealth = maxHealth;
+        } else 
+        {
+            currentHealth += value;
+        }
+        Debug.LogFormat("Current health is {0}", currentHealth);
+    }
+
+    public void UseAmmo() 
+    {
+        ammo -= 1;
+    }
+
+    public void DrainHealth(float value) 
+    {
+        currentHealth -= value;
+
+        if (currentHealth < 0f) 
+        {
+            Debug.Log("Player Dies");
+        }
     }
 
     public float GetDamage() 
@@ -59,6 +69,11 @@ public class Player : MonoBehaviour
 
     public float GetHealth() 
     {
-        return health;
+        return currentHealth;
+    }
+
+    public float GetAmmo() 
+    {
+        return ammo;
     }
 }
