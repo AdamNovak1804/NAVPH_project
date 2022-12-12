@@ -1,4 +1,5 @@
 using System.Numerics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Quaternion = UnityEngine.Quaternion;
@@ -16,11 +17,11 @@ public class PlayerController : MonoBehaviour
 
     public int maxJumpCount = 2;
     public float speed = 3.0f;
-    public float jumpForce = 5.0f;
+    public float jumpForce = 3.0f;
 
     private string actAnim = "";
     private Animation anim;
-    private Rigidbody body;
+  
     private int jumpCount = 0;
 
     private bool isAlreadyDying = false;
@@ -31,13 +32,21 @@ public class PlayerController : MonoBehaviour
 
     private AudioManager audioManager;
 
+
+    public CharacterController controller;
+
+    private float turnSmoothVelocity;
+    public float turnSmoothTime = 0.01f;
+
+    private float gravity;
+
     private PlayerCombatController playerCombatController;
 
     Vector3 forwardVector;
     void Start()
     {
+
         anim = GetComponent<Animation>();
-        body = GetComponent<Rigidbody>();
         player = GetComponent<Player>();
         playerCombatController = GetComponent<PlayerCombatController>();
         audioManager = FindObjectOfType<AudioManager>();
@@ -64,14 +73,30 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        forwardVector = mainCamera.GetComponent<CameraController>().fwd.normalized;
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
 
-        Vector3 direction = transform.forward;
+        Vector3 direction = new Vector3(horizontal, 0f, vertical);
 
-        if (anim.isPlaying.Equals(false) && jumpCount == 0)
+        Vector3 moveDir = new Vector3(0, 0, 0);
+
+        if (direction.magnitude > 0.1f)
         {
+
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + mainCamera.GetComponent<Camera>().transform.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+            moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             PlayAnim("Armature|Idle");
         }
+
+        if (controller.isGrounded)
+        {
+            gravity = 0;
+            jumpCount = 0;
+        }
+
 
         if (Input.GetButtonDown("Jump") && jumpCount < maxJumpCount)
         {
@@ -81,39 +106,25 @@ public class PlayerController : MonoBehaviour
             anim.Play(actAnim);
 
             jumpCount += 1;
-            body.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            gravity = jumpForce;
         }
 
-        // WASD movement
-        if (Input.GetButton("Forward"))
+
+        gravity -= 4f * Time.deltaTime;
+        moveDir.y = gravity;
+
+        moveDir.x *= speed;
+        moveDir.z *= speed;
+
+        controller.Move(moveDir * Time.deltaTime);
+        
+
+        if (anim.isPlaying.Equals(false) && jumpCount == 0)
         {
-            PlayAnim("Armature|Walking");
-            direction = forwardVector;
-            transform.Translate(forwardVector * speed * Time.deltaTime, Space.World);
+            actAnim = "Armature|Idle";
+            anim.Play(actAnim);
         }
-
-        if (Input.GetButton("Backward"))
-        {
-            PlayAnim("Armature|Walking");
-            direction = -forwardVector;
-            transform.Translate(-forwardVector * speed * Time.deltaTime, Space.World);
-        }
-
-        if (Input.GetButton("Right"))
-        {
-            PlayAnim("Armature|Walking");
-            direction = Quaternion.Euler(0, 90, 0) * forwardVector;
-            transform.Translate(Quaternion.Euler(0, 90, 0) * forwardVector * speed * Time.deltaTime, Space.World);
-        }
-
-        if (Input.GetButton("Left"))
-        {
-            PlayAnim("Armature|Walking");
-            direction = Quaternion.Euler(0, -90, 0) * forwardVector;
-            transform.Translate(Quaternion.Euler(0, -90, 0) * forwardVector * speed * Time.deltaTime, Space.World);
-        }
-
-        direction.y = 0;
+        
 
         if (Input.GetButtonDown("MeleeAttack") && playerCombatController.isAttacking <= 0f) 
         {
