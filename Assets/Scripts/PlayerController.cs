@@ -201,4 +201,14 @@ public class PlayerController : MonoBehaviour
         anim.Play(actAnim);
     }
 
+    public void DoubleJumpEnabled(bool value) 
+    {
+        if (value) 
+        {
+            maxJumpCount = 2;
+        } else {
+            maxJumpCount = 1;
+        }
+    }
+
 }

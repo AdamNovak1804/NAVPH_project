@@ -10,12 +10,14 @@ public class Player : MonoBehaviour
     public int score = 0;
     public int ammo = 5;
 
+    private PowerUps powerUps;
+
     //private string powerUp = "none";
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        powerUps = GetComponent<PowerUps>();
     }
 
     // Update is called once per frame
@@ -54,6 +56,10 @@ public class Player : MonoBehaviour
 
     public void DrainHealth(float value) 
     {
+        if (powerUps.isPowerUpActive && powerUps.activePowerUpName == "GodArmor") 
+        {
+            powerUps.DeactivatePowerUp();
+        } 
         currentHealth -= value;
 
         if (currentHealth < 0f) 

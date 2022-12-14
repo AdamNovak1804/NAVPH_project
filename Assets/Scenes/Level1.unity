@@ -4208,6 +4208,121 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6944660285736743408, guid: 82678c1579ddebc41a7d10533bfa9cd1, type: 3}
   m_PrefabInstance: {fileID: 566890655}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1100731874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1100731879}
+  - component: {fileID: 1100731878}
+  - component: {fileID: 1100731877}
+  - component: {fileID: 1100731876}
+  - component: {fileID: 1100731875}
+  m_Layer: 0
+  m_Name: Cylinder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1100731875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100731874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 934a686d964cfa842a3975268e95feaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreAddition: 0
+  ammoAddition: 0
+  healthAddition: 0
+  timeToBecomeCollectible: 0
+  isPowerUp: 1
+--- !u!136 &1100731876
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100731874}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5000001
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!23 &1100731877
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100731874}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1100731878
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100731874}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1100731879
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100731874}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 11.43}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1109555719
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5415,6 +5530,20 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 0
   m_Center: {x: -0.06, y: 1.47, z: 0.24}
+--- !u!114 &1285682390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1285682380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b46896714795047b5bfdd5ccf08888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPowerUpActive: 0
+  activePowerUpName: 
 --- !u!1001 &1286415644
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6866,6 +6995,18 @@ MonoBehaviour:
     audioSource: {fileID: 0}
   - name: NoAmmo
     audioClip: {fileID: 8300000, guid: 822a7588c5cc53648990b46cf3e757ee, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: PowerUpEnabled
+    audioClip: {fileID: 8300000, guid: 3f73a300a08218940b77d6a6dbb10370, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: PowerUpDisabled
+    audioClip: {fileID: 8300000, guid: 16d1547dba60e9446be38a4fc996d1ad, type: 3}
     volume: 0.45
     pitch: 0.97
     loop: 0
