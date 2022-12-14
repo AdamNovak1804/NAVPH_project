@@ -9,6 +9,7 @@ public class CollectiblesScript : MonoBehaviour
     public int ammoAddition = 0;
     public int healthAddition = 0;
     public float timeToBecomeCollectible = 0f;
+    public bool isPowerUp; 
     private bool isCollectible = false;
     private AudioManager audioManager;
     void Start()
@@ -45,6 +46,11 @@ public class CollectiblesScript : MonoBehaviour
             if (healthAddition > 0) 
             {
                 audioManager.Play("HealthPickup");
+            }
+            if (isPowerUp) 
+            {
+                var powerUps = (PowerUps) other.transform.gameObject.GetComponent(typeof(PowerUps));
+                powerUps.ActivatePowerUp();
             }
             this.gameObject.SetActive(false);
             Object.Destroy(this.gameObject);
