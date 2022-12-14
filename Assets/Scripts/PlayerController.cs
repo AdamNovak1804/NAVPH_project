@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public GameObject mainCamera;
     private Player player;
 
-    public int maxJumpCount = 2;
+    public int maxJumpCount = 1;
     public float speed = 3.0f;
     public float jumpForce = 3.0f;
 
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            PlayAnim("Armature|Idle");
+            // PlayAnim("Armature|Idle");
         }
 
         if (controller.isGrounded)
@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && jumpCount < maxJumpCount)
         {
-
+            Debug.Log("Jump count is" + jumpCount);
             actAnim = "Armature|Jump";
             anim.Stop(actAnim);
             anim.Play(actAnim);
@@ -121,8 +121,7 @@ public class PlayerController : MonoBehaviour
 
         if (anim.isPlaying.Equals(false) && jumpCount == 0)
         {
-            actAnim = "Armature|Idle";
-            anim.Play(actAnim);
+            PlayAnim("Armature|Idle");
         }
         
 

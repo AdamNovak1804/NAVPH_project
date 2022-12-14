@@ -110,4 +110,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610d20ac98d43124faf90ce4543487b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnItem: {fileID: 3443492601176738700, guid: d2257b528c6a97a44a15f31ffdb279eb, type: 3}
+  spawnItem: {fileID: 5357205033257795685, guid: e525947d64d702e42bbed9d701ae36a8, type: 3}

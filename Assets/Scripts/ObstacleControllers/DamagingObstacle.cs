@@ -6,7 +6,7 @@ public class DamagingObstacle : MonoBehaviour
 {
     public float damage;
 
-    private void OnCollisionEnter(Collision other) 
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "Astronaut") 
         {

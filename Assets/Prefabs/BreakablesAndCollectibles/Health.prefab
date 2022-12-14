@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5440733073383272334}
   - component: {fileID: 7810836795304336196}
   - component: {fileID: 8909315297877338578}
-  - component: {fileID: 8909315297877338579}
   - component: {fileID: 8909315297877338581}
+  - component: {fileID: 5775620907914209744}
   m_Layer: 0
   m_Name: Health
   m_TagString: Untagged
@@ -99,22 +99,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: e019c8ac926e1294a8e1173a09e68fd2, type: 3}
---- !u!114 &8909315297877338579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8603378177597110929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7563184750ebba74ba6840942c63408a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreAddition: 0
-  ammoAddition: 0
-  healthAddition: 0
-  timeToBecomeCollectible: 0
 --- !u!114 &8909315297877338581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,3 +111,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c065346315cba8469a33008db4ea524, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5775620907914209744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8603378177597110929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 934a686d964cfa842a3975268e95feaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreAddition: 0
+  ammoAddition: 0
+  healthAddition: 2
+  timeToBecomeCollectible: 0
