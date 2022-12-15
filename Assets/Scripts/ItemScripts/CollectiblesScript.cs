@@ -27,7 +27,7 @@ public class CollectiblesScript : MonoBehaviour
             timeToBecomeCollectible -= Time.deltaTime;
         }
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         if (isCollectible && other.transform.name == "Astronaut") 
         {

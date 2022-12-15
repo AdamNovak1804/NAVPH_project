@@ -90,4 +90,21 @@ public class ObstacleMovement : MonoBehaviour
             }
         }
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.name == "Astronaut")
+        {
+
+            Player player = other.gameObject.GetComponent<Player>();
+            PlayerController controller = other.gameObject.GetComponent<PlayerController>();
+
+            if (player != null)
+            {
+                var dir = other.transform.position - this.transform.position;
+                dir.y = 0;
+                controller.AddKnockback(dir, speed * 10);
+            }
+        }
+    }
 }

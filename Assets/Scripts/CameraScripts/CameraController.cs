@@ -93,7 +93,7 @@ public class CameraController : MonoBehaviour
     {
         time += Time.deltaTime;
 
-        var speed = player.GetComponent<PlayerController>().speed;
+        var speed = player.GetComponent<PlayerMovement>().moveSpeed;
  
         if (currDir != newDir)
         {
@@ -119,8 +119,7 @@ public class CameraController : MonoBehaviour
             currIP += currDir;
             fromPos = ipPositions[currIP];
 
-           
-
+          
             if ((currIP + 1) >= ipPositions.Count())
             {
                 return;

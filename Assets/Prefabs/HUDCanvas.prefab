@@ -161,7 +161,6 @@ GameObject:
   - component: {fileID: 8533721572851126722}
   - component: {fileID: 8533721572851126724}
   - component: {fileID: 8533721572851126723}
-  - component: {fileID: 8533721572851126725}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -230,20 +229,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 00:00:00
---- !u!114 &8533721572851126725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8533721572851126721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2055c931f79a0844db606801d97f732a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 8533721572851126723}
-  elapsedTime: 0
 --- !u!1 &8533721572915379606
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +356,7 @@ GameObject:
   - component: {fileID: 8533721573374024377}
   - component: {fileID: 8533721573374024376}
   m_Layer: 5
-  m_Name: Text (1)
+  m_Name: AmmoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -450,7 +435,7 @@ GameObject:
   - component: {fileID: 8533721573448065136}
   - component: {fileID: 8533721573448065151}
   m_Layer: 5
-  m_Name: Text
+  m_Name: CollectibleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -692,6 +677,7 @@ GameObject:
   - component: {fileID: 8533721574187766237}
   - component: {fileID: 8533721574187766236}
   - component: {fileID: 8533721574187766235}
+  - component: {fileID: 1070166712528129415}
   m_Layer: 5
   m_Name: HUDCanvas
   m_TagString: Untagged
@@ -782,6 +768,23 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1070166712528129415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8533721574187766234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c24e6de448682e44088afc3eb81b676a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarAmount: {fileID: 8533721573867406362}
+  score: {fileID: 8533721573448065151}
+  ammoCount: {fileID: 8533721573374024376}
+  text: {fileID: 8533721572851126723}
+  elapsedTime: 0
 --- !u!1 &8533721574673786906
 GameObject:
   m_ObjectHideFlags: 0
