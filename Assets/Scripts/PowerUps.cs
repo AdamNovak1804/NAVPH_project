@@ -8,12 +8,12 @@ public class PowerUps : MonoBehaviour
     public string activePowerUpName = "";
     private string[] powerUps = {"DoubleJump", "GodArmor"};
     private float activePeriod = 0.0f;
-    private PlayerController playerController;
+    private Player player;
     private AudioManager audioManager;
     // Start is called before the first frame update
     void Start()
     {
-        playerController = GetComponent<PlayerController>();
+        player = GetComponent<Player>();
         audioManager = FindObjectOfType<AudioManager>();
     }
 
@@ -38,13 +38,15 @@ public class PowerUps : MonoBehaviour
 
     public void ActivatePowerUp() 
     {
+        
         activePeriod = 8f;
-        string s = ChoosePowerUp();
+        string s = "DoubleJump";
+        Debug.Log(s);
         isPowerUpActive = true;
         activePowerUpName = s;
         if (activePowerUpName == "DoubleJump") 
         {
-            playerController.DoubleJumpEnabled(true);
+            player.DoubleJumpEnabled(true);
         }
         audioManager.Play("PowerUpEnabled");
         Debug.Log(s + "is active now...");
@@ -55,7 +57,7 @@ public class PowerUps : MonoBehaviour
         isPowerUpActive = false;
         if (activePowerUpName == "DoubleJump") 
         {
-            playerController.DoubleJumpEnabled(false);
+            player.DoubleJumpEnabled(false);
         }
         audioManager.Play("PowerUpDisabled");
         Debug.Log(activePowerUpName + "is not active anymore...");
