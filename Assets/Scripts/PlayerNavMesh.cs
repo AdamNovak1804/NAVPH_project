@@ -12,13 +12,14 @@ public class PlayerNavMesh : MonoBehaviour
         ranged,
     }
     public EnemyType enemyType;
+    public Player player;
+    public float sightDistance = 8.0f;
+    public float attackWait = 1.2f;
+    public float hitDistance = 2.0f;
+
     private NavMeshAgent navMeshAgent;
-
     private float isWaiting = 0f;
-
     private float isAttacking = 0f;
-    public GameObject player;
-
     private Enemy enemy;
     
     private void Awake() {
@@ -29,17 +30,19 @@ public class PlayerNavMesh : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        var distance = Vector3.Distance(transform.position, player.gameObject.transform.position);
         isAttacking -= Time.deltaTime;
+        
         if (isWaiting > 0f) 
         {
             isWaiting -= Time.deltaTime;
             return;
         }
+
         // Add radius limit
         if (enemyType == EnemyType.melee)
         {
-            var distance = Vector3.Distance(transform.position, player.gameObject.transform.position);
-            if (distance < 8f) 
+            if (distance < sightDistance)
             {
                 navMeshAgent.destination = player.gameObject.transform.position;
             }
@@ -55,11 +58,19 @@ public class PlayerNavMesh : MonoBehaviour
             if (isAttacking <= 0f) 
             {
                 enemy.RangeAttack();
-                isAttacking = 1.2f;
+                isAttacking = attackWait;
             }
         }
         // If in second range - stop and shoot - validate second first
         // If close to combat, attack
+        if (enemyType == EnemyType.melee)
+        {
+            if (isAttacking <= 0f && distance < hitDistance)
+            {
+                enemy.MeeleeAttack(player);
+                isAttacking = attackWait;
+            }
+        }
     }
 
 

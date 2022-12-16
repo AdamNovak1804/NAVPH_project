@@ -68,4 +68,10 @@ public class Enemy : MonoBehaviour
         Projectile proj = (Projectile) obj.gameObject.GetComponent<Projectile>();
         proj.ShootTowards(pointOfRangeAttack, playerNav.GetPlayerPosition().position + new Vector3(0,1,0));
     }
+
+    public void MeeleeAttack(Player player)
+    {
+        // Play animation of attack
+        player.DrainHealth(damage);
+    }
 }
