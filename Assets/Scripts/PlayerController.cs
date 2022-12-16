@@ -108,23 +108,10 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (collision.transform.name == "MovingPlatform") 
-        {
-            transform.SetParent(collision.transform);
-        }
-
         if (collision.transform.name == "FinishLine") 
         {
             SceneManager.LoadScene("IvoFinishLineTestScene");
         }
-    }
-
-    private void OnCollisionExit(Collision other) 
-    {
-        if (other.transform.name == "MovingPlatform") 
-        {
-            transform.SetParent(null);
-        }    
     }
 
     private void PlayAnim(string s) 
