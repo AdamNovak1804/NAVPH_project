@@ -37,6 +37,7 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PowerUps.UpdateSpeed += ChangeFovToSpeed;
 
         //initialize position, get keyPositions, interpolate them, do stuff
         var scene = SceneManager.GetActiveScene();
@@ -93,7 +94,7 @@ public class CameraController : MonoBehaviour
     {
         time += Time.deltaTime;
 
-        var speed = player.GetComponent<PlayerMovement>().moveSpeed;
+        var speed = player.GetComponent<PlayerMovement>().currentSpeed;
  
         if (currDir != newDir)
         {
@@ -159,5 +160,15 @@ public class CameraController : MonoBehaviour
             }
         }
         return interpolated;
+    }
+
+    private void ChangeFovToSpeed(bool enabled, float duration, float newSpeed)
+    {
+        if (enabled)
+        {
+            GetComponent<Camera>().fieldOfView *= 1.25f;
+            return;
+        }
+        GetComponent<Camera>().fieldOfView *= 0.8f;
     }
 }

@@ -1610,18 +1610,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  currentSpeed: 0
   groundDrag: 5
   jumpForce: 5
-  jumpCooldown: 0.1
+  jumpCooldown: 0.5
   airMultiplier: 0.2
+  jumpCount: 0
   maxJumpCount: 0
   walkSpeed: 0
   sprintSpeed: 0
   jumpKey: 32
   playerHeight: 3.7
-  whatIsGround:
+  Ground:
     serializedVersion: 2
     m_Bits: 256
+  Hittable:
+    serializedVersion: 2
+    m_Bits: 64
   mainCamera: {fileID: 0}
   turnSmoothTime: 0.01
 --- !u!136 &-1328016812710529165
@@ -1652,6 +1657,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPowerUpActive: 0
   activePowerUpName: 
+  activePeriod: 0
+  duration: 8
+  speedPowerup: 8
 --- !u!1 &8971420016616809137
 GameObject:
   m_ObjectHideFlags: 0

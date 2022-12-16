@@ -7,12 +7,15 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
+    public float currentSpeed;
 
     public float groundDrag;
 
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
+
+    public float jumpCount;
     public int maxJumpCount;
     bool readyToJump;
 
@@ -24,7 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Ground Check")]
     public float playerHeight;
-    public LayerMask whatIsGround;
+    public LayerMask Ground;
+    public LayerMask Hittable;
     bool grounded;
 
     [Header("Camera")]
@@ -58,14 +62,27 @@ public class PlayerMovement : MonoBehaviour
 
         readyToJump = true;
 
-        Player.UpdateDoubleJump += DoubleJumpEnabled;
+        currentSpeed = moveSpeed;
+
+        PowerUps.UpdateDoubleJump += DoubleJumpEnabled;
+        PowerUps.UpdateSpeed += SpeedEnabled;
     }
 
     private void Update()
     {
-        
         // ground check
-        grounded = Physics.Raycast(transform.position, Vector3.down, 0.1f, whatIsGround);
+        grounded = Physics.Raycast(transform.position, Vector3.down, 0.06f, Ground) || Physics.Raycast(transform.position, Vector3.down, 0.06f, Hittable);
+
+        if (grounded)
+        {
+            rb.drag = groundDrag;
+            if (readyToJump)
+            {
+                jumpCount = 0;
+            }
+        }
+        else
+            rb.drag = 0;
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -74,8 +91,9 @@ public class PlayerMovement : MonoBehaviour
 
         moveDirection = new Vector3(0, 0, 0);
 
-        if (Input.GetKey(jumpKey) && readyToJump && grounded)
+        if (Input.GetKey(jumpKey) && readyToJump && (grounded || maxJumpCount > jumpCount))
         {
+            jumpCount++;
             anim.Play(JUMPING_ANIMATION);
             readyToJump = false;
 
@@ -104,19 +122,12 @@ public class PlayerMovement : MonoBehaviour
             }
             
         }
-        
-        SpeedControl();
 
-        // handle drag
-        if (grounded)
-            rb.drag = groundDrag;
-        else
-            rb.drag = 0;
+        SpeedControl();
     }
 
     private void FixedUpdate()
     {
-        
         MovePlayer();
     }
 
@@ -126,11 +137,11 @@ public class PlayerMovement : MonoBehaviour
 
         // on ground
         if (grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * currentSpeed * 10f, ForceMode.Force);
 
         // in air
         else if (!grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * currentSpeed * 10f * airMultiplier, ForceMode.Force);
     }
 
     private void SpeedControl()
@@ -138,9 +149,9 @@ public class PlayerMovement : MonoBehaviour
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         // limit velocity if needed
-        if (flatVel.magnitude > moveSpeed)
+        if (flatVel.magnitude > currentSpeed)
         {
-            Vector3 limitedVel = flatVel.normalized * moveSpeed;
+            Vector3 limitedVel = flatVel.normalized * currentSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
     }
@@ -157,9 +168,8 @@ public class PlayerMovement : MonoBehaviour
         readyToJump = true;
     }
 
-    public void DoubleJumpEnabled(bool value)
+    public void DoubleJumpEnabled(bool value, float duration)
     {
-        Debug.Log("am i here?");
         if (value)
         {
             maxJumpCount = 2;
@@ -167,6 +177,18 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             maxJumpCount = 1;
+        }
+    }
+
+    public void SpeedEnabled(bool value, float duration, float newSpeed)
+    {
+        if (value)
+        {
+            currentSpeed = newSpeed;
+        }
+        else
+        {
+            currentSpeed = moveSpeed;
         }
     }
 }

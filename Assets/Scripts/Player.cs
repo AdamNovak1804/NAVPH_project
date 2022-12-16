@@ -16,10 +16,6 @@ public class Player : MonoBehaviour
     public delegate void UpdateScoreCount(int score);
     public static event UpdateScoreCount UpdateScore;
 
-    public delegate void DoubleJump(bool enabled);
-    public static event DoubleJump UpdateDoubleJump;
-
-
     public float damage = 0f;
     public float maxHealth = 7f;
     public float currentHealth = 5f;
@@ -72,10 +68,6 @@ public class Player : MonoBehaviour
         Debug.LogFormat("Current health is {0}", currentHealth);
     }
 
-    public void DoubleJumpEnabled(bool enabled)
-    {
-        UpdateDoubleJump(enabled);
-    }
 
     public void UseAmmo() 
     {
