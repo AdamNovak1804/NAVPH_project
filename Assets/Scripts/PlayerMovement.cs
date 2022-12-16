@@ -110,6 +110,8 @@ public class PlayerMovement : MonoBehaviour
             }
            
             targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + mainCamera.GetComponent<Camera>().transform.eulerAngles.y;
+            
+            //angle == look at enemy if targeted
             angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
 
             moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
