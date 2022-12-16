@@ -4,31 +4,27 @@ using UnityEngine;
 
 public class PlayerCombatController : MonoBehaviour
 {
-    public Transform pointOfMeleeAttack;
-    public float rangeOfMeleeAttack = 0.5f;
-
-    public float rangeOfScan = 10f;
-    public LayerMask enemyLayers;
-
-    public GameObject projectile;
-    private Player player;
-
     [System.NonSerialized]
     public float isAttacking = 0f;
 
     [System.NonSerialized]
     public bool shouldMeleeAttack = false;
 
+    public Transform pointOfMeleeAttack;
+    public GameObject target;
+    public LayerMask enemyLayers;
+    public GameObject projectile;
+
+    public float rangeOfMeleeAttack = 0.5f;
+    public float rangeOfScan = 10f;
     public float isShooting = 0.0f;
 
+    private Player player;
     private bool enemyLocked = false;
-    private Vector3 closestEnemy;
-
-    public GameObject target;
-
+    private GameObject closestEnemy;
     private GameObject targetedEnemy;
-
     private AudioManager audioManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -110,8 +106,8 @@ public class PlayerCombatController : MonoBehaviour
         {
             isShooting = 0.06f;
             var currentTransform = transform;
-            transform.LookAt(closestEnemy);
-            proj.ShootTowards(pointOfMeleeAttack, closestEnemy);
+            transform.LookAt(closestEnemy.transform.position);
+            proj.ShootTowards(pointOfMeleeAttack, closestEnemy.transform.position);
             //isShooting = false;
             // transform.forward = currentTransform.forward;
             enemyLocked = false;
@@ -137,25 +133,26 @@ public class PlayerCombatController : MonoBehaviour
                     {
                         locatedFirst = true;
                         enemyLocked = true;
-                        closestEnemy = enemy.gameObject.transform.position;
+                        closestEnemy = enemy.gameObject;
                         continue;
                     }
-                    if (Vector3.Distance(transform.position, closestEnemy) > Vector3.Distance(transform.position, enemy.gameObject.transform.position))
+                    if (Vector3.Distance(transform.position, closestEnemy.transform.position) > Vector3.Distance(transform.position, enemy.gameObject.transform.position))
                     {
-                        closestEnemy = enemy.gameObject.transform.position;
+                        closestEnemy = enemy.gameObject;
                     }
                 }
             }
             if (enemyLocked) 
             {
                 targetedEnemy = CreateTarget();
+                targetedEnemy.transform.parent = closestEnemy.transform;
             }
         }
     }
 
     private GameObject CreateTarget() 
     {
-        return Object.Instantiate(target, closestEnemy + new Vector3(0,2,0), Quaternion.Euler(90,0,0));
+        return Object.Instantiate(target, closestEnemy.transform.position + new Vector3(0,4.5f,0), Quaternion.Euler(90,0,0));
     }
 
     private void OnDrawGizmosSelected() {
