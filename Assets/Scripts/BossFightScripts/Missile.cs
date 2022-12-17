@@ -10,7 +10,7 @@ public class Missile : MonoBehaviour
 
     private float damage = 0.0f;
     private GameObject target;
-    private Player player;
+    private PlayerStats player;
     private Vector3 curDir;
 
     public enum MissileType
@@ -36,7 +36,7 @@ public class Missile : MonoBehaviour
         Debug.Log("Missile Active!");
 
         target = GameObject.FindWithTag("Player");
-        player = target.GetComponent<Player>();
+        player = target.GetComponent<PlayerStats>();
 
         curDir = new Vector3(0.0f, speed, 0.0f);
     }
