@@ -19,7 +19,7 @@ public class PlayerCombatController : MonoBehaviour
     public float rangeOfScan = 10f;
     public float isShooting = 0.0f;
 
-    private Player player;
+    private PlayerStats player;
     private bool enemyLocked = false;
     private GameObject closestEnemy;
     private GameObject targetedEnemy;
@@ -28,7 +28,7 @@ public class PlayerCombatController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerStats>();
         audioManager = FindObjectOfType<AudioManager>();
     }
 
@@ -78,7 +78,7 @@ public class PlayerCombatController : MonoBehaviour
             if (enemyScript != null)
             {
                 enemyScript.TakeDamage(player.GetDamage());
-                enemyScript.ApplyPushback(pointOfMeleeAttack.position);
+                enemyScript.ApplyPushback();
                 return;
             }
             BreakableScript breakableScript = (BreakableScript) enemy.GetComponent<BreakableScript>();
@@ -107,7 +107,12 @@ public class PlayerCombatController : MonoBehaviour
             isShooting = 0.06f;
             var currentTransform = transform;
             transform.LookAt(closestEnemy.transform.position);
-            proj.ShootTowards(pointOfMeleeAttack, closestEnemy.transform.position);
+
+            Vector3 targetEnemy = closestEnemy.transform.position;
+            // this is the height of the capsule collider
+            targetEnemy.y += 1.8f;
+
+            proj.ShootTowards(pointOfMeleeAttack, targetEnemy);
             //isShooting = false;
             // transform.forward = currentTransform.forward;
             enemyLocked = false;

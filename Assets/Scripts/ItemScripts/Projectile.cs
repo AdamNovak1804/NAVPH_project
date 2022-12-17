@@ -5,25 +5,14 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public float lifeTime = 3f;
-
     public float damage = 1f;
-
     public float speed = 1f;
-
     public bool isEnabled = false;
-
+    public bool isEnemyProjectile = false;
     public LayerMask hittableLayers;
 
     private bool targetHit = false;
-
-    public bool isEnemyProjectile = false;
-
     private Vector3 goalPosition;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -63,7 +52,7 @@ public class Projectile : MonoBehaviour
         Debug.Log("Hit" + other.name);
         if (isEnemyProjectile) 
         {
-            Player player = (Player) other.GetComponent<Player>();
+            PlayerStats player = (PlayerStats) other.GetComponent<PlayerStats>();
             if (player != null) 
             {
                 player.DrainHealth(10f);
@@ -77,7 +66,6 @@ public class Projectile : MonoBehaviour
             enemy.TakeDamage(damage);
             this.gameObject.SetActive(false);
             Object.Destroy(this.gameObject);
-            Debug.Log("Hitted "+ other.name);
         }
         // Proces hit
     }

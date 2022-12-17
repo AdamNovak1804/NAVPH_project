@@ -12,14 +12,16 @@ public class PlayerNavMesh : MonoBehaviour
         ranged,
     }
     public EnemyType enemyType;
-    public Player player;
+    public PlayerStats player;
     public float sightDistance = 8.0f;
     public float attackWait = 1.2f;
     public float hitDistance = 2.0f;
+    public float minDistance = 2.0f;
 
-    private NavMeshAgent navMeshAgent;
+    private bool isMoving = false;
     private float isWaiting = 0f;
     private float isAttacking = 0f;
+    private NavMeshAgent navMeshAgent;
     private Enemy enemy;
     
     private void Awake() {
@@ -30,7 +32,6 @@ public class PlayerNavMesh : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        var distance = Vector3.Distance(transform.position, player.gameObject.transform.position);
         isAttacking -= Time.deltaTime;
         
         if (isWaiting > 0f) 
@@ -42,13 +43,27 @@ public class PlayerNavMesh : MonoBehaviour
         // Add radius limit
         if (enemyType == EnemyType.melee)
         {
+            var distance = Vector3.Distance(transform.position, player.gameObject.transform.position);
+            navMeshAgent.destination = transform.position;
+
             if (distance < sightDistance)
             {
-                navMeshAgent.destination = player.gameObject.transform.position;
+                isMoving = true;
+
+                if (distance > minDistance)
+                {
+                    navMeshAgent.destination = player.gameObject.transform.position;
+                }
             }
             else 
             {
-                navMeshAgent.destination = transform.position;
+                isMoving = false;
+            }
+
+            if (isAttacking <= 0f && distance < hitDistance)
+            {
+                enemy.MeeleeAttack(player);
+                isAttacking = attackWait;
             }
         }
         
@@ -58,16 +73,6 @@ public class PlayerNavMesh : MonoBehaviour
             if (isAttacking <= 0f) 
             {
                 enemy.RangeAttack();
-                isAttacking = attackWait;
-            }
-        }
-        // If in second range - stop and shoot - validate second first
-        // If close to combat, attack
-        if (enemyType == EnemyType.melee)
-        {
-            if (isAttacking <= 0f && distance < hitDistance)
-            {
-                enemy.MeeleeAttack(player);
                 isAttacking = attackWait;
             }
         }
@@ -82,5 +87,10 @@ public class PlayerNavMesh : MonoBehaviour
     public Transform GetPlayerPosition() 
     {
         return player.transform;
+    }
+
+    public bool GetMovingStatus()
+    {
+        return isMoving;
     }
 }

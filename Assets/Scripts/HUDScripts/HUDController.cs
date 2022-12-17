@@ -35,9 +35,9 @@ public class HUDController : MonoBehaviour
 
         healthBarAmount.value = 100;
 
-        Player.UpdateHealth += UpdateHealthBar;
-        Player.UpdateAmmo += UpdateAmmo;
-        Player.UpdateScore += UpdateScore;
+        PlayerStats.UpdateHealth += UpdateHealthBar;
+        PlayerStats.UpdateAmmo += UpdateAmmo;
+        PlayerStats.UpdateScore += UpdateScore;
 
         PowerUps.UpdateDoubleJump += UpdateDoubleJump;
         PowerUps.UpdateSpeed += UpdateSpeed;
@@ -48,9 +48,9 @@ public class HUDController : MonoBehaviour
 
     void OnDisable()
     {
-        Player.UpdateHealth -= UpdateHealthBar;
-        Player.UpdateAmmo -= UpdateAmmo;
-        Player.UpdateScore -= UpdateScore;
+        PlayerStats.UpdateHealth -= UpdateHealthBar;
+        PlayerStats.UpdateAmmo -= UpdateAmmo;
+        PlayerStats.UpdateScore -= UpdateScore;
 
         PowerUps.UpdateDoubleJump -= UpdateDoubleJump;
         PowerUps.UpdateSpeed -= UpdateSpeed;

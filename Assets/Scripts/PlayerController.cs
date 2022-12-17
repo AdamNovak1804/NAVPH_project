@@ -14,27 +14,23 @@ public class PlayerController : MonoBehaviour
     const string DEATH_ANIMATION = "Armature|Death";
     const string WALKING_ANIMATION = "Armature|Walking";
     const string IDLE_ANIMATION = "Armature|Idle";
+
     public GameObject mainCamera;
-    private Player player;
-
-    private string actAnim = "";
-    private Animation anim;
-
-
-    private bool isAlreadyDying = false;
 
     private float isDying = 1f;
-
+    private string actAnim = "";
+    private bool isAlreadyDying = false;
+    
+    private PlayerStats player;
+    private Animation anim;
     private AudioManager audioManager;
-
     private PlayerCombatController playerCombatController;
-
     private Rigidbody rb;
 
     void Start()
     {
         anim = GetComponent<Animation>();
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerStats>();
         playerCombatController = GetComponent<PlayerCombatController>();
         audioManager = FindObjectOfType<AudioManager>();
         rb = GetComponent<Rigidbody>();

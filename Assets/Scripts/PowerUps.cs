@@ -12,7 +12,7 @@ public class PowerUps : MonoBehaviour
     public float duration = 8.0f;
 
     public float speedPowerup = 8.0f;
-    private Player player;
+    private PlayerStats player;
     private AudioManager audioManager;
 
     public delegate void DoubleJump(bool enabled, float length);
@@ -27,7 +27,7 @@ public class PowerUps : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerStats>();
         audioManager = FindObjectOfType<AudioManager>();
     }
 
