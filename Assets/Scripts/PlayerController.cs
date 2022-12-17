@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision)
-    {
+    {      
 
         if (collision.transform.name == "FinishLine") 
         {
