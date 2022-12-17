@@ -27,6 +27,9 @@ public class PlayerController : MonoBehaviour
     private PlayerCombatController playerCombatController;
     private Rigidbody rb;
 
+    public FinishScreenController controller;
+    public HUDController hudController;
+
     void Start()
     {
         anim = GetComponent<Animation>();
@@ -106,9 +109,11 @@ public class PlayerController : MonoBehaviour
 
         if (collision.transform.name == "FinishLine") 
         {
-            SceneManager.LoadScene("IvoFinishLineTestScene");
+            controller.gameObject.SetActive(true);
+            hudController.gameObject.SetActive(false);
         }
     }
+
 
     private void PlayAnim(string s) 
     {

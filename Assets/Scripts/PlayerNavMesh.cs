@@ -12,7 +12,7 @@ public class PlayerNavMesh : MonoBehaviour
         ranged,
     }
     public EnemyType enemyType;
-    public PlayerStats player;
+    public GameObject player;
     public float sightDistance = 8.0f;
     public float attackWait = 1.2f;
     public float hitDistance = 2.0f;
@@ -62,7 +62,7 @@ public class PlayerNavMesh : MonoBehaviour
 
             if (isAttacking <= 0f && distance < hitDistance)
             {
-                enemy.MeeleeAttack(player);
+                enemy.MeeleeAttack(player); 
                 isAttacking = attackWait;
             }
         }

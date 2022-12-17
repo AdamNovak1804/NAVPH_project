@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -21,7 +22,12 @@ public class PlayerStats : MonoBehaviour
     public float currentHealth = 5f;
     public int score = 0;
     public int ammo = 5;
+    public float time = 0f;
+    public int enemiesKilled = 0;
 
+    public int maxScore;
+    public int maxEnemies;
+    
     private PowerUps powerUps;
 
     //private string powerUp = "none";
@@ -29,17 +35,30 @@ public class PlayerStats : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        maxScore = GameObject.FindGameObjectsWithTag("Coin").ToList().Count();
+        maxEnemies = GameObject.FindGameObjectsWithTag("Enemy").ToList().Count();
+        
+        Enemy.UpdateKilledEnemies += AddKilledEnemy;
         powerUps = GetComponent<PowerUps>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateHealth(currentHealth / maxHealth * 100);
-        UpdateAmmo(ammo);
-        UpdateScore(score);
+        time += Time.deltaTime;
+        
+        if (UpdateHealth != null)
+        {
+            UpdateHealth(currentHealth / maxHealth * 100);
+            UpdateAmmo(ammo);
+            UpdateScore(score);
+        }   
     }
 
+    public void AddKilledEnemy()
+    {
+        enemiesKilled++;
+    }
     public void AddScore(int value) 
     {
         score += value;

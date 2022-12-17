@@ -111,7 +111,7 @@ public class PlatformMovement : MonoBehaviour
     private void OnCollisionStay(Collision collision)
     {
        
-        if (collision.gameObject.tag == "PlayerStats")
+        if (collision.gameObject.tag == "Player")
         {
             Debug.Log("player on platform");
             collision.gameObject.transform.position = Vector3.MoveTowards(collision.gameObject.transform.position, nextPos, speed * Time.deltaTime);
