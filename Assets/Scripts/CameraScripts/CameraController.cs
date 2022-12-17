@@ -79,12 +79,12 @@ public class CameraController : MonoBehaviour
 
             if (trueDist >= maxDist)
             {
-                Debug.Log("moving forward");
+                //Debug.Log("moving forward");
                 MoveCamera(1);
             }
             else if (trueDist <= minDist && currIP - 1 >= 0)
             {
-                Debug.Log("moving backwards");
+                //Debug.Log("moving backwards");
                 MoveCamera(-1);
             }
         }

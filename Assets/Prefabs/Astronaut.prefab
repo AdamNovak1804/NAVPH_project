@@ -1572,14 +1572,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointOfMeleeAttack: {fileID: 8971420016616809142}
-  rangeOfMeleeAttack: 0.8
-  rangeOfScan: 10
+  target: {fileID: 2094298284444845370, guid: 0eca455bf2f484f44b8c72085506e5d6, type: 3}
   enemyLayers:
     serializedVersion: 2
     m_Bits: 64
   projectile: {fileID: 8377958575526815097, guid: ac235463934517d4197a810201bc19d4, type: 3}
+  rangeOfMeleeAttack: 0.8
+  rangeOfScan: 10
   isShooting: 0
-  target: {fileID: 2094298284444845370, guid: 0eca455bf2f484f44b8c72085506e5d6, type: 3}
 --- !u!114 &8971420014981788168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1640,9 +1640,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 3.8
+  m_Height: 3.7
   m_Direction: 1
-  m_Center: {x: 0, y: 1.9, z: 0}
+  m_Center: {x: 0, y: 1.8, z: 0}
 --- !u!114 &-4186571088771073601
 MonoBehaviour:
   m_ObjectHideFlags: 0

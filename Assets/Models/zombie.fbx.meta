@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7d3063bc119263d40af9c920a9913925
+guid: 568de8705f78a6d41ab145e55f88a5ac
 ModelImporter:
   serializedVersion: 21100
   internalIDToNameTable:
@@ -15,7 +15,12 @@ ModelImporter:
   - first:
       74: -4274770991410265338
     second: Armature|Walking
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 82dbd31ab0b635747a52f016de4891d8, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
