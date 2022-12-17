@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class Player : MonoBehaviour
+public class PlayerStats : MonoBehaviour
 {
 
     public delegate void UpdateHealthBar(float amount);
@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
 
         if (currentHealth < 0f) 
         {
-            Debug.Log("Player Dies");
+            Debug.Log("PlayerStats Dies");
         }
 
     }

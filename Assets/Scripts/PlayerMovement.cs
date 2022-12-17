@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using static PlayerStats;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -68,6 +69,11 @@ public class PlayerMovement : MonoBehaviour
         PowerUps.UpdateSpeed += SpeedEnabled;
     }
 
+    void OnDisable()
+    {
+        PowerUps.UpdateDoubleJump -= DoubleJumpEnabled;
+        PowerUps.UpdateSpeed -= SpeedEnabled;
+    }
     private void Update()
     {
         // ground check

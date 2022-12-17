@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private string actAnim = "";
     private bool isAlreadyDying = false;
     
-    private Player player;
+    private PlayerStats player;
     private Animation anim;
     private AudioManager audioManager;
     private PlayerCombatController playerCombatController;
@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animation>();
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerStats>();
         playerCombatController = GetComponent<PlayerCombatController>();
         audioManager = FindObjectOfType<AudioManager>();
         rb = GetComponent<Rigidbody>();
@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision)
-    {
+    {      
 
         if (collision.transform.name == "FinishLine") 
         {

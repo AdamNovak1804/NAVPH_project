@@ -12,7 +12,7 @@ public class PlayerNavMesh : MonoBehaviour
         ranged,
     }
     public EnemyType enemyType;
-    public Player player;
+    public PlayerStats player;
     public float sightDistance = 8.0f;
     public float attackWait = 1.2f;
     public float hitDistance = 2.0f;

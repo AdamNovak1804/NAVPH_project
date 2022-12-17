@@ -90,7 +90,7 @@ public class Enemy : MonoBehaviour
         proj.ShootTowards(pointOfRangeAttack, playerNav.GetPlayerPosition().position + new Vector3(0,1,0));
     }
 
-    public void MeeleeAttack(Player player)
+    public void MeeleeAttack(PlayerStats player)
     {
         // Play animation of attack
         anim.Play(MEELEE_ANIMATION);

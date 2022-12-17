@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlatformMovement : MonoBehaviour
 {
@@ -104,6 +105,16 @@ public class PlatformMovement : MonoBehaviour
                 }
                 nextPos = positions[currentIndex];
             }
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+       
+        if (collision.gameObject.tag == "PlayerStats")
+        {
+            Debug.Log("player on platform");
+            collision.gameObject.transform.position = Vector3.MoveTowards(collision.gameObject.transform.position, nextPos, speed * Time.deltaTime);
         }
     }
 }

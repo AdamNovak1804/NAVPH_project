@@ -19,7 +19,7 @@ public class PlayerCombatController : MonoBehaviour
     public float rangeOfScan = 10f;
     public float isShooting = 0.0f;
 
-    private Player player;
+    private PlayerStats player;
     private bool enemyLocked = false;
     private GameObject closestEnemy;
     private GameObject targetedEnemy;
@@ -28,7 +28,7 @@ public class PlayerCombatController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerStats>();
         audioManager = FindObjectOfType<AudioManager>();
     }
 

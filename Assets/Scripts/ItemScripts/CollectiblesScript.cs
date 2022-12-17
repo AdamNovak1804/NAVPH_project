@@ -31,7 +31,7 @@ public class CollectiblesScript : MonoBehaviour
     {
         if (isCollectible && other.transform.name == "Astronaut") 
         {
-            var player = (Player) other.transform.gameObject.GetComponent(typeof(Player));
+            var player = (PlayerStats) other.transform.gameObject.GetComponent(typeof(PlayerStats));
             player.AddScore(scoreAddition);
             if (scoreAddition > 0) 
             {
