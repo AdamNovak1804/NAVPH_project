@@ -85,6 +85,8 @@ public class Player : MonoBehaviour
 
         UpdateHealth(currentHealth / maxHealth * 100);
 
+        Debug.Log(currentHealth);
+
         if (currentHealth < 0f) 
         {
             Debug.Log("Player Dies");
