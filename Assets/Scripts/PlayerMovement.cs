@@ -74,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
         PowerUps.UpdateDoubleJump -= DoubleJumpEnabled;
         PowerUps.UpdateSpeed -= SpeedEnabled;
     }
+
     private void Update()
     {
         // ground check

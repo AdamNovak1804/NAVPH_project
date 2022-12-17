@@ -9,12 +9,13 @@ public class Enemy : MonoBehaviour
     const string IDLE_ANIMATION = "Armature|Idle";
     const string WALKING_ANIMATION = "Armature|Walking";
 
+    public float strength = 10f;
     public float health = 3f;
     public float damage = 0f;
     public float armor = 0f;
     public float dyingTime = 0.5f;
     public float waitAfterHit = 0.5f;
-    public float pushBack = 2.0F;
+
     public Transform pointOfRangeAttack;
     public GameObject projectile;
 
@@ -22,6 +23,9 @@ public class Enemy : MonoBehaviour
     private Animation anim;
     private Rigidbody rb;
     private PlayerNavMesh playerNav;
+
+    public delegate void Died();
+    public static event Died UpdateKilledEnemies;
 
     // Start is called before the first frame update
     void Start()
@@ -67,6 +71,7 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
+        UpdateKilledEnemies();
         this.gameObject.SetActive(false);
         Object.Destroy(this.gameObject);
     }
@@ -76,9 +81,9 @@ public class Enemy : MonoBehaviour
         health -= (value - armor);
     }
 
-    public void ApplyPushback()
+    public void ApplyPushback(Vector3 playerPos, float strength)
     {
-        transform.Translate(-Vector3.forward * pushBack);
+        rb.AddForce((this.transform.position - playerPos).normalized * strength, ForceMode.Impulse);
         playerNav.WaitAfterImpact(waitAfterHit);
     }
 
@@ -90,10 +95,16 @@ public class Enemy : MonoBehaviour
         proj.ShootTowards(pointOfRangeAttack, playerNav.GetPlayerPosition().position + new Vector3(0,1,0));
     }
 
-    public void MeeleeAttack(PlayerStats player)
+    public void MeeleeAttack(GameObject player)
     {
         // Play animation of attack
         anim.Play(MEELEE_ANIMATION);
-        player.DrainHealth(damage);
+        if (isDying)
+        {
+            return;
+        }
+        
+        player.GetComponent<PlayerStats>().DrainHealth(damage);
+        player.GetComponent<PlayerController>().AddKnockback(player.gameObject.transform.position - this.transform.position, strength);
     }
 }

@@ -758,6 +758,7 @@ GameObject:
   - component: {fileID: 4824285524668033616}
   - component: {fileID: 4824285524668033617}
   - component: {fileID: 4824285524668033622}
+  - component: {fileID: 1909955824659239028}
   m_Layer: 5
   m_Name: LevelFinish
   m_TagString: Untagged
@@ -848,6 +849,29 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1909955824659239028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4824285524668033623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66589a5a256306245bc0f34885424499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 0}
+  score: {fileID: 5852076554674517368}
+  time: {fileID: 5838982197819530087}
+  enemies: {fileID: 3388136545444914881}
+  totalScore: {fileID: 5027633160164336990}
+  setTime: 90
+  medals:
+  - {fileID: 21300000, guid: 4b633cce473554345bc2840c12f19222, type: 3}
+  - {fileID: 21300000, guid: c56abcd22d011364cbee8560739a73ac, type: 3}
+  - {fileID: 21300000, guid: 00fb20fc9938a5849b5bf4e07e4de851, type: 3}
+  medalImage: {fileID: 3223481533272227188}
 --- !u!1 &5695778678750837325
 GameObject:
   m_ObjectHideFlags: 0
