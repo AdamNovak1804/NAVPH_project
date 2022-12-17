@@ -52,7 +52,7 @@ public class Projectile : MonoBehaviour
         Debug.Log("Hit" + other.name);
         if (isEnemyProjectile) 
         {
-            Player player = (Player) other.GetComponent<Player>();
+            PlayerStats player = (PlayerStats) other.GetComponent<PlayerStats>();
             if (player != null) 
             {
                 player.DrainHealth(10f);

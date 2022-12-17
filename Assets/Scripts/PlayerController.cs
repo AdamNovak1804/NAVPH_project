@@ -21,16 +21,19 @@ public class PlayerController : MonoBehaviour
     private string actAnim = "";
     private bool isAlreadyDying = false;
     
-    private Player player;
+    private PlayerStats player;
     private Animation anim;
     private AudioManager audioManager;
     private PlayerCombatController playerCombatController;
     private Rigidbody rb;
 
+    public FinishScreenController controller;
+    public HUDController hudController;
+
     void Start()
     {
         anim = GetComponent<Animation>();
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerStats>();
         playerCombatController = GetComponent<PlayerCombatController>();
         audioManager = FindObjectOfType<AudioManager>();
         rb = GetComponent<Rigidbody>();
@@ -102,13 +105,15 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision)
-    {
+    {      
 
         if (collision.transform.name == "FinishLine") 
         {
-            SceneManager.LoadScene("IvoFinishLineTestScene");
+            controller.gameObject.SetActive(true);
+            hudController.gameObject.SetActive(false);
         }
     }
+
 
     private void PlayAnim(string s) 
     {

@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseController : MonoBehaviour
 {
     // Update is called once per frame
-    public static bool isPaused = false;
+    public bool isPaused = false;
 
     public GameObject pauseMenu;
 
@@ -45,8 +46,17 @@ public class PauseController : MonoBehaviour
 
     }
 
+    public void RestartLevel()
+    {
+        pauseMenu.SetActive(false);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        isPaused = false;
+        Time.timeScale = 1f;
+    }
+
     public void QuitGame()
     {
-
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Menu");
     }
 }
