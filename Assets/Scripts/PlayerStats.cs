@@ -104,6 +104,8 @@ public class PlayerStats : MonoBehaviour
 
         UpdateHealth(currentHealth / maxHealth * 100);
 
+        Debug.Log(currentHealth);
+
         if (currentHealth < 0f) 
         {
             Debug.Log("PlayerStats Dies");
