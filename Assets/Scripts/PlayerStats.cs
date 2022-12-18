@@ -57,7 +57,10 @@ public class PlayerStats : MonoBehaviour
         {
             UpdateHealth(currentHealth / maxHealth * 100);
             UpdateAmmo(ammo);
-            UpdateScore(score);
+            if (UpdateScore != null)
+            {
+                UpdateScore(score);
+            }
             hudInitialized = true;
         }
     }

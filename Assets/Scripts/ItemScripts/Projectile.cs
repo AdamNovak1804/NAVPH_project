@@ -17,7 +17,6 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(speed);
         if (Vector3.Distance(transform.position, goalPosition) < 0.01f)
         {
             targetHit = true;
