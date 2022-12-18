@@ -51,6 +51,7 @@ public class Boss : MonoBehaviour
     private BossState actState;
     private BossFightCamera cameraScript;
     private NavMeshAgent navMeshAgent;
+    private AudioManager audioManager;
     private Queue<BossState> actionQueue = new Queue<BossState>();
     private Queue<Vector3> positionQueue = new Queue<Vector3>();
 
@@ -58,6 +59,8 @@ public class Boss : MonoBehaviour
     {
         if (actState == BossState.vulnerable)
         {
+            audioManager.Play("ZombieGrunt");
+
             lives -= 1;
             actVulnerableTime = vulnerableTime;
 
@@ -123,6 +126,7 @@ public class Boss : MonoBehaviour
         anim = gameObject.GetComponent<Animation>();
         navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
         cameraScript = camera.gameObject.GetComponent<BossFightCamera>();
+        audioManager = FindObjectOfType<AudioManager>();
         actState = BossState.idle;
     }
 
@@ -218,6 +222,8 @@ public class Boss : MonoBehaviour
 
                     if (hasDied == true)
                     {
+                        audioManager.Play("WallBreak");
+
                         arena.gameObject.transform.GetChild(1).gameObject.SetActive(false);
                         gameObject.SetActive(false);
                         Destroy(gameObject);
@@ -251,6 +257,7 @@ public class Boss : MonoBehaviour
         // shoot a rocket
         if (actMissileDelay < 0.0f && hasShot == false)
         {
+            audioManager.Play("MissileLaunch");
             hasShot = true;
             actMissileDelay = missileDelay;
             
