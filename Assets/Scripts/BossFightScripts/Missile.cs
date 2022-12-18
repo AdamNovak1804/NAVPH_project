@@ -10,7 +10,7 @@ public class Missile : MonoBehaviour
 
     private float damage = 0.0f;
     private GameObject target;
-    private Player player;
+    private PlayerStats player;
     private Vector3 curDir;
 
     public enum MissileType
@@ -36,7 +36,7 @@ public class Missile : MonoBehaviour
         Debug.Log("Missile Active!");
 
         target = GameObject.FindWithTag("Player");
-        player = target.GetComponent<Player>();
+        player = target.GetComponent<PlayerStats>();
 
         curDir = new Vector3(0.0f, speed, 0.0f);
     }
@@ -57,7 +57,7 @@ public class Missile : MonoBehaviour
     }
 
     // Explode when hitting anything
-    void OnCollisionEnter()
+    void OnCollisionEnter(Collision collision)
     {
         Debug.Log("I hit!");
 
@@ -72,15 +72,21 @@ public class Missile : MonoBehaviour
 
                 if (distanceFromTarget <= lethalDistance)
                 {
-                    player.DrainHealth(damage);
+                    //player.DrainHealth(damage);
                 }
                 break;
             case MissileType.breaking:
                 Debug.Log("Breaking missile goes Boom!");
 
+                if (collision.gameObject.tag == "GlassPane")
+                {
+                    collision.gameObject.SetActive(false);
+                }
+
                 break;
        }
 
+        Debug.Log("I blew up!");
         gameObject.SetActive(false);
         Destroy(gameObject);
     }
