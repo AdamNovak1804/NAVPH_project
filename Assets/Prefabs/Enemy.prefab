@@ -60,7 +60,7 @@ MonoBehaviour:
   player: {fileID: 0}
   sightDistance: 8
   attackWait: 1.2
-  hitDistance: 2
+  hitDistance: 4
   minDistance: 2
 --- !u!114 &8607108149735975682
 MonoBehaviour:
@@ -194,6 +194,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2223639932434330405, guid: 568de8705f78a6d41ab145e55f88a5ac, type: 3}
+      propertyPath: m_Animations.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2223639932434330405, guid: 568de8705f78a6d41ab145e55f88a5ac, type: 3}
+      propertyPath: m_Animations.Array.data[4]
+      value: 
+      objectReference: {fileID: 2126547105437587583, guid: a1ca04de5d7582d4197099a47a03d7d3, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 568de8705f78a6d41ab145e55f88a5ac, type: 3}
 --- !u!1 &4844361449324829827 stripped
