@@ -76,7 +76,6 @@ public class PowerUps : MonoBehaviour
             UpdateGodArmor(true, duration);
         }
         audioManager.Play("PowerUpEnabled");
-        Debug.Log(name + "is active now...");
     }
 
     public void DeactivatePowerUp()
@@ -95,7 +94,6 @@ public class PowerUps : MonoBehaviour
             UpdateGodArmor(false, duration);
         }
         audioManager.Play("PowerUpDisabled");
-        Debug.Log(activePowerUpName + "is not active anymore...");
         activePowerUpName = CollectiblesScript.PowerUpType.Random;
     }
 }

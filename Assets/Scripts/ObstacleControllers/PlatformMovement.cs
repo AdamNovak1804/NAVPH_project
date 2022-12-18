@@ -96,11 +96,14 @@ public class PlatformMovement : MonoBehaviour
             {
                 transform.position = Vector3.MoveTowards(transform.position, nextPos, speed * Time.deltaTime);
             }
-            else {
-                if (currentIndex == 3) {
+            else
+            {
+                if (currentIndex == 3)
+                {
                     currentIndex = 0;
                 }
-                else {
+                else
+                {
                     currentIndex += 1;
                 }
                 nextPos = positions[currentIndex];
@@ -113,7 +116,6 @@ public class PlatformMovement : MonoBehaviour
        
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("player on platform");
             collision.gameObject.transform.position = Vector3.MoveTowards(collision.gameObject.transform.position, nextPos, speed * Time.deltaTime);
         }
     }
