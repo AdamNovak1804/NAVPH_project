@@ -12,6 +12,7 @@ public class Boss : MonoBehaviour
     public float waitInterval = 2.0f;
     public float vulnerableTime = 5.0f;
     
+    public GameObject arena;
     public Transform[] bossPositions;
     public Texture explosiveMissileTexture;
     public Texture breakingMissileTexture;
@@ -217,9 +218,9 @@ public class Boss : MonoBehaviour
 
                     if (hasDied == true)
                     {
+                        arena.gameObject.transform.GetChild(1).gameObject.SetActive(false);
                         gameObject.SetActive(false);
                         Destroy(gameObject);
-                        // destroy the wall beneath the boss
                     }
 
                     hasDied = true;
