@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour
         {
             anim.Play(WALKING_ANIMATION);
         }
-        else if (playerNav.GetMovingStatus() == false)
+        else if (playerNav.GetMovingStatus() == false && playerNav.GetWaiting() < 0.0f)
         {
             anim.Play(IDLE_ANIMATION);
         }
@@ -97,6 +97,7 @@ public class Enemy : MonoBehaviour
         // Set better limits when projectiles are finished and speed is decided
         this.transform.LookAt(playerNav.GetPlayerPosition().position);
         var obj =  Object.Instantiate(projectile.gameObject, pointOfRangeAttack.position, Quaternion.Euler(-90,0,0));
+
         anim.Play(SHOOTING_ANIMATION);
         Projectile proj = (Projectile) obj.gameObject.GetComponent<Projectile>();
         proj.isEnemyProjectile = true;

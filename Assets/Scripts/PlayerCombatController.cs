@@ -97,7 +97,7 @@ public class PlayerCombatController : MonoBehaviour
         var obj =  Object.Instantiate(projectile.gameObject, pointOfMeleeAttack.position, Quaternion.Euler(-90,0,0));
         Projectile proj = (Projectile) obj.gameObject.GetComponent<Projectile>();
         player.UseAmmo();
-        //audioManager.Play("PlayerLaserShot");
+        audioManager.Play("PlayerLaserShot");
         if (enemyLocked && targetedEnemy != null) 
         {
             targetedEnemy.SetActive(false);

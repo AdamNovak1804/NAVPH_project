@@ -41,19 +41,19 @@ public class CollectiblesScript : MonoBehaviour
         if (isCollectible && other.transform.name == "Astronaut") 
         {
             var player = (PlayerStats) other.transform.gameObject.GetComponent(typeof(PlayerStats));
-            player.AddScore(scoreAddition);
             if (scoreAddition > 0) 
             {
+                player.AddScore(scoreAddition);
                 audioManager.Play("CoinPickup");
             }
-            player.AddAmmo(ammoAddition);
             if (ammoAddition > 0) 
             {
+                player.AddAmmo(ammoAddition);
                 audioManager.Play("AmmoPickup");
             }
-            player.AddHealth(healthAddition);
             if (healthAddition > 0) 
             {
+                player.AddHealth(healthAddition);
                 audioManager.Play("HealthPickup");
             }
             if (isPowerUp) 

@@ -29,6 +29,11 @@ public class PlayerNavMesh : MonoBehaviour
         enemy = GetComponent<Enemy>();
     }
 
+    public float GetWaiting()
+    {
+        return isWaiting;
+    }
+
     // Update is called once per frame
     private void Update()
     {
