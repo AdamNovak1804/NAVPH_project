@@ -74,7 +74,7 @@ public class Projectile : MonoBehaviour
 
             if (boss != null)
             {
-                boss.TakeDamage();
+                boss.HitTarget();
                 this.gameObject.SetActive(false);
                 Object.Destroy(this.gameObject);
             }

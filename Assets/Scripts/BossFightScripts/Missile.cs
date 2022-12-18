@@ -7,6 +7,7 @@ public class Missile : MonoBehaviour
     public float lethalDistance = 3.0f;
     public float speed = 2.0f;
     public float ceilingHeight = 25.0f;
+    public float missileScale = 3.0f;
 
     private float damage = 0.0f;
     private GameObject target;
@@ -52,6 +53,8 @@ public class Missile : MonoBehaviour
             Debug.Log("I'm going down!");
             Vector3 newPos = new Vector3(target.transform.position.x, transform.position.y - 0.1f, target.transform.position.z);
             transform.position = newPos;
+            transform.localScale *= missileScale;
+            transform.Rotate(0, 180.0f, 0);
             curDir *= -1;
         }
     }
