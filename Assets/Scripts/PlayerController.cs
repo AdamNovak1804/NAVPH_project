@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("MeleeAttack") && playerCombatController.isAttacking <= 0f) 
         {
-            playerCombatController.isAttacking = 1f;
+            playerCombatController.isAttacking = 1.25f;
             PlayAnim("Armature|Meelee");
             playerCombatController.shouldMeleeAttack = true;
         }

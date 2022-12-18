@@ -38,31 +38,25 @@ public class HUDController : MonoBehaviour
         PlayerStats.UpdateHealth += UpdateHealthBar;
         PlayerStats.UpdateAmmo += UpdateAmmo;
 
-        if (powerupSprite == null)
-        {
-            PlayerStats.UpdateScore += UpdateScore;
+        PlayerStats.UpdateScore += UpdateScore;
 
-            PowerUps.UpdateDoubleJump += UpdateDoubleJump;
-            PowerUps.UpdateSpeed += UpdateSpeed;
-            PowerUps.UpdateGodArmor += UpdateGodArmor;
+        PowerUps.UpdateDoubleJump += UpdateDoubleJump;
+        PowerUps.UpdateSpeed += UpdateSpeed;
+        PowerUps.UpdateGodArmor += UpdateGodArmor;
 
-            powerUp.SetActive(false);
-        }
+        powerUp.SetActive(false);
+    
     }
 
     void OnDisable()
     {
         PlayerStats.UpdateHealth -= UpdateHealthBar;
         PlayerStats.UpdateAmmo -= UpdateAmmo;
+        PlayerStats.UpdateScore -= UpdateScore;
 
-        if (powerupSprite == null)
-        {
-            PlayerStats.UpdateScore -= UpdateScore;
-
-            PowerUps.UpdateDoubleJump -= UpdateDoubleJump;
-            PowerUps.UpdateSpeed -= UpdateSpeed;
-            PowerUps.UpdateGodArmor -= UpdateGodArmor;
-        }
+        PowerUps.UpdateDoubleJump -= UpdateDoubleJump;
+        PowerUps.UpdateSpeed -= UpdateSpeed;
+        PowerUps.UpdateGodArmor -= UpdateGodArmor;
     }
 
     // Update is called once per frame

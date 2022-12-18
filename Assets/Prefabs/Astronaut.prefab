@@ -1483,6 +1483,7 @@ GameObject:
   - component: {fileID: 9043934237123433345}
   - component: {fileID: -1328016812710529165}
   - component: {fileID: -4186571088771073601}
+  - component: {fileID: 5590614942064558827}
   m_Layer: 0
   m_Name: Astronaut
   m_TagString: Player
@@ -1580,10 +1581,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   projectile: {fileID: 8377958575526815097, guid: ac235463934517d4197a810201bc19d4, type: 3}
-  rangeOfMeleeAttack: 0.8
+  rangeOfMeleeAttack: 1.5
   rangeOfScan: 10
   isShooting: 0
-  pushbackForce: 50
+  pushbackForce: 10
 --- !u!114 &8971420014981788168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1619,7 +1620,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   currentSpeed: 0
-  groundDrag: 5
+  groundDrag: 7
   jumpForce: 5
   jumpCooldown: 0.5
   airMultiplier: 0.2
@@ -1664,10 +1665,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPowerUpActive: 0
-  activePowerUpName: 
+  activePowerUpName: 0
   activePeriod: 0
   duration: 8
   speedPowerup: 8
+--- !u!136 &5590614942064558827
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8971420014981788182}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 3.7
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.8, z: 0}
 --- !u!1 &8971420016616809137
 GameObject:
   m_ObjectHideFlags: 0

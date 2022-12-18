@@ -255,9 +255,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
-        m_MethodName: RestartLevel
+      - m_Target: {fileID: 1909955824659239028}
+        m_TargetAssemblyTypeName: FinishScreenController, Assembly-CSharp
+        m_MethodName: Continue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -872,6 +872,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c56abcd22d011364cbee8560739a73ac, type: 3}
   - {fileID: 21300000, guid: 00fb20fc9938a5849b5bf4e07e4de851, type: 3}
   medalImage: {fileID: 3223481533272227188}
+  nextLevel: 
 --- !u!1 &5695778678750837325
 GameObject:
   m_ObjectHideFlags: 0

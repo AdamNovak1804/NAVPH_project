@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class PowerUps : MonoBehaviour
 {
     public bool isPowerUpActive = false;
-    public string activePowerUpName = "";
-    private string[] powerUps = {"DoubleJump", "GodArmor", "Speed"};
+    public CollectiblesScript.PowerUpType activePowerUpName;
 
     public float activePeriod = 0.0f;
     public float duration = 8.0f;
@@ -44,54 +45,57 @@ public class PowerUps : MonoBehaviour
         }
     }
 
-    private string ChoosePowerUp() 
+    private CollectiblesScript.PowerUpType ChoosePowerUp() 
     {
-        var index = Random.Range(0,2);
-        return powerUps[index];
+        Random random = new Random(Mathf.RoundToInt(Time.time));
+        Array values = Enum.GetValues(typeof(CollectiblesScript.PowerUpType));
+        return (CollectiblesScript.PowerUpType)values.GetValue(random.Next(values.Length));
     }
 
-    public void ActivatePowerUp() 
+    public void ActivatePowerUp(CollectiblesScript.PowerUpType name) 
     {
         activePeriod = duration;
         
-        string s = "DoubleJump";
-        Debug.Log(s);
+        if (name == CollectiblesScript.PowerUpType.Random)
+        {
+            name = ChoosePowerUp();
+        }
         isPowerUpActive = true;
-        activePowerUpName = s;
-        if (activePowerUpName == "DoubleJump") 
+        activePowerUpName = name;
+        if (activePowerUpName == CollectiblesScript.PowerUpType.DoubleJump) 
         {
             UpdateDoubleJump(true, duration);
         }
-        if (activePowerUpName == "Speed")
+        if (activePowerUpName == CollectiblesScript.PowerUpType.Speed)
         {
             UpdateSpeed(true, duration, speedPowerup);
         }
 
-        if (activePowerUpName == "GodMode")
+        if (activePowerUpName == CollectiblesScript.PowerUpType.GodArmor)
         {
             UpdateGodArmor(true, duration);
         }
         audioManager.Play("PowerUpEnabled");
-        Debug.Log(s + "is active now...");
+        Debug.Log(name + "is active now...");
     }
 
     public void DeactivatePowerUp()
     {
         isPowerUpActive = false;
-        if (activePowerUpName == "DoubleJump")
+        if (activePowerUpName == CollectiblesScript.PowerUpType.DoubleJump)
         {
             UpdateDoubleJump(false, duration);
         }
-        if (activePowerUpName == "Speed")
+        if (activePowerUpName == CollectiblesScript.PowerUpType.Speed)
         {
             UpdateSpeed(false, duration, 0f);
         }
-        if (activePowerUpName == "GodMode")
+        if (activePowerUpName == CollectiblesScript.PowerUpType.GodArmor)
         {
             UpdateGodArmor(false, duration);
         }
         audioManager.Play("PowerUpDisabled");
         Debug.Log(activePowerUpName + "is not active anymore...");
-        activePowerUpName = "";
+        activePowerUpName = CollectiblesScript.PowerUpType.Random;
     }
 }

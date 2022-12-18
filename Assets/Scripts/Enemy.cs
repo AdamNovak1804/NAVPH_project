@@ -24,6 +24,8 @@ public class Enemy : MonoBehaviour
     private Rigidbody rb;
     private PlayerNavMesh playerNav;
 
+    public AudioManager audioManager;
+
     public delegate void Died();
     public static event Died UpdateKilledEnemies;
 
@@ -33,6 +35,7 @@ public class Enemy : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         anim = this.GetComponent<Animation>();
         playerNav = GetComponent<PlayerNavMesh>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -79,6 +82,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float value) 
     {
         health -= (value - armor);
+        audioManager.Play("ZombieGrunt");
     }
 
     public void ApplyPushback(Vector3 playerPos, float strength)
@@ -90,12 +94,14 @@ public class Enemy : MonoBehaviour
     public void RangeAttack() 
     {
         // Set better limits when projectiles are finished and speed is decided
+        this.transform.LookAt(playerNav.GetPlayerPosition().position);
         var obj =  Object.Instantiate(projectile.gameObject, pointOfRangeAttack.position, Quaternion.Euler(-90,0,0));
         Projectile proj = (Projectile) obj.gameObject.GetComponent<Projectile>();
+        proj.isEnemyProjectile = true;
         proj.ShootTowards(pointOfRangeAttack, playerNav.GetPlayerPosition().position + new Vector3(0,1,0));
     }
 
-    public void MeeleeAttack(GameObject player)
+    public void MeeleeAttack(GameObject player, float isAtacking)
     {
         // Play animation of attack
         anim.Play(MEELEE_ANIMATION);
@@ -103,7 +109,12 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
-        
+
+        if(player.GetComponent<PlayerCombatController>().isAttacking < isAtacking)
+        {
+            return;
+        }
+
         player.GetComponent<PlayerStats>().DrainHealth(damage);
         player.GetComponent<PlayerController>().AddKnockback(player.gameObject.transform.position - this.transform.position, strength);
     }

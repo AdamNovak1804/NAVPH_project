@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using static PlayerStats;
 
+// inspired by this https://www.youtube.com/watch?v=f473C43s8nE
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
