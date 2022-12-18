@@ -29,9 +29,9 @@ public class PlayerController : MonoBehaviour
     private PlayerCombatController playerCombatController;
     private Rigidbody rb;
 
-    public FinishScreenController controller;
-    public HUDController hudController;
-    public DeathScreenController deathScreen;
+    public GameObject controller;
+    public GameObject hudController;
+    public GameObject deathScreen;
 
     void Start()
     {
@@ -57,8 +57,8 @@ public class PlayerController : MonoBehaviour
 
         if (isDying <= 0f)
         {
-            deathScreen.gameObject.SetActive(true);
-            hudController.gameObject.SetActive(false);
+            deathScreen.SetActive(true);
+            hudController.SetActive(false);
         }
 
         if (isAlreadyDying)
@@ -107,8 +107,8 @@ public class PlayerController : MonoBehaviour
     {      
         if (collision.transform.name == "FinishLine") 
         {
-            controller.gameObject.SetActive(true);
-            hudController.gameObject.SetActive(false);
+            controller.SetActive(true);
+            hudController.SetActive(false);
         }
     }
 

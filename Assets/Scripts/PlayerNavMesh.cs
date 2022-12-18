@@ -14,7 +14,7 @@ public class PlayerNavMesh : MonoBehaviour
     public EnemyType enemyType;
     public GameObject player;
     public float sightDistance = 8.0f;
-    public float attackWait = 1.2f;
+    public float attackWait = 3f;
     public float hitDistance = 2.0f;
     public float minDistance = 2.0f;
 

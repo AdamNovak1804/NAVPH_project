@@ -1581,7 +1581,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   projectile: {fileID: 8377958575526815097, guid: ac235463934517d4197a810201bc19d4, type: 3}
-  rangeOfMeleeAttack: 1.5
+  rangeOfMeleeAttack: 1.75
   rangeOfScan: 10
   isShooting: 0
   pushbackForce: 10
@@ -1601,7 +1601,7 @@ MonoBehaviour:
   maxHealth: 7
   currentHealth: 7
   score: 0
-  ammo: 5
+  ammo: 0
   time: 0
   enemiesKilled: 0
   maxScore: 0

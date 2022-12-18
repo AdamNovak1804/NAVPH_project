@@ -1898,7 +1898,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8561945462163603425}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8561945460520164412}
+        m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8561945462320817738
 GameObject:
   m_ObjectHideFlags: 0
@@ -2376,6 +2388,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8006238236023401848}
     m_Modifications:
+    - target: {fileID: 1050841149780960267, guid: 41a333ec090239045823e18af7f6b120, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7122771883959142471}
+    - target: {fileID: 1050841149780960267, guid: 41a333ec090239045823e18af7f6b120, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: QuitToMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 1050841149780960267, guid: 41a333ec090239045823e18af7f6b120, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: FinishScreenController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4824285524668033619, guid: 41a333ec090239045823e18af7f6b120, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2468,6 +2492,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5955440144201578355, guid: 41a333ec090239045823e18af7f6b120, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7122771883959142471}
+    - target: {fileID: 5955440144201578355, guid: 41a333ec090239045823e18af7f6b120, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RestartLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955440144201578355, guid: 41a333ec090239045823e18af7f6b120, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: FinishScreenController, Assembly-CSharp
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41a333ec090239045823e18af7f6b120, type: 3}
 --- !u!224 &4227723233792848480 stripped
@@ -2475,3 +2511,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4824285524668033619, guid: 41a333ec090239045823e18af7f6b120, type: 3}
   m_PrefabInstance: {fileID: 8671872390378477619}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7122771883959142471 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1909955824659239028, guid: 41a333ec090239045823e18af7f6b120, type: 3}
+  m_PrefabInstance: {fileID: 8671872390378477619}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66589a5a256306245bc0f34885424499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

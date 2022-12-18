@@ -11,6 +11,10 @@ public class HUDBossBattle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (healthBarAmount == null)
+        {
+            return;
+        }
         healthBarAmount.value = 100;
 
         PlayerStats.UpdateHealth += UpdateHealthBar;
@@ -23,11 +27,6 @@ public class HUDBossBattle : MonoBehaviour
         PlayerStats.UpdateAmmo -= UpdateAmmo;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     void UpdateHealthBar(float value)
     {

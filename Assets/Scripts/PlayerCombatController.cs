@@ -19,6 +19,7 @@ public class PlayerCombatController : MonoBehaviour
     public float rangeOfScan = 10f;
     public float isShooting = 0.0f;
     public float pushbackForce = 50f;
+    public float effectiveAttack = 0.6f;
 
     private PlayerStats player;
     private bool enemyLocked = false;
@@ -61,7 +62,7 @@ public class PlayerCombatController : MonoBehaviour
             }
         }
         
-        if (shouldMeleeAttack && isAttacking <= 0.25f) 
+        if (shouldMeleeAttack && isAttacking <= effectiveAttack) 
         {
             MakeMeleeImpact();
             shouldMeleeAttack = false;
