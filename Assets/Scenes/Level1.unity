@@ -5749,6 +5749,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 581832882}
     - target: {fileID: 313980388963156638, guid: 6f64e72400711334fb138c488b47278d, type: 3}
+      propertyPath: deathScreen
+      value: 
+      objectReference: {fileID: 1164254613}
+    - target: {fileID: 313980388963156638, guid: 6f64e72400711334fb138c488b47278d, type: 3}
       propertyPath: hudController
       value: 
       objectReference: {fileID: 1742398630}
@@ -5850,7 +5854,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8971420014981788171, guid: 6f64e72400711334fb138c488b47278d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 370
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8971420014981788180, guid: 6f64e72400711334fb138c488b47278d, type: 3}
       propertyPath: pushbackForce
@@ -5904,6 +5908,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ada4541aa1445847ad475a13cd3120a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1164254613 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5014553228191856895, guid: 929f91d9f10722e46a37b8d0476859ff, type: 3}
+  m_PrefabInstance: {fileID: 8561945461676821474}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b6814f6d6718dd4aa57fb242a9565cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1175171655 stripped

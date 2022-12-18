@@ -26,6 +26,7 @@ public class FinishScreenController: MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 0f;
         score.text = "Score: " + stats.score.ToString();
         score.text = "Time: " + stats.time.ToString();
         score.text = "Enemies killed: " + stats.enemiesKilled.ToString();
@@ -43,7 +44,7 @@ public class FinishScreenController: MonoBehaviour
 
     void ShowSprite(int total)
     {
-        Time.timeScale = 0f;
+        
         if (total < 90)
         {
             medalImage.sprite = medals[0];

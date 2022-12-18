@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
     public FinishScreenController controller;
     public HUDController hudController;
+    public DeathScreenController deathScreen;
 
     void Start()
     {
@@ -54,7 +55,8 @@ public class PlayerController : MonoBehaviour
 
         if (isDying <= 0f)
         {
-            SceneManager.LoadScene("IvoTestMenuScene");
+            deathScreen.gameObject.SetActive(true);
+            hudController.gameObject.SetActive(false);
         }
 
         if (isAlreadyDying)
@@ -89,12 +91,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // rotate when shooting 
-
-        /*if (playerCombatController.isShooting < 0.03f) 
-        {
-            transform.forward = direction;
-        }*/
+        
     }
 
 

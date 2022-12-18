@@ -27,7 +27,9 @@ public class PlayerStats : MonoBehaviour
 
     public int maxScore;
     public int maxEnemies;
-    
+
+    private bool hudInitialized = false;
+
     private PowerUps powerUps;
 
     //private string powerUp = "none";
@@ -40,19 +42,23 @@ public class PlayerStats : MonoBehaviour
         
         Enemy.UpdateKilledEnemies += AddKilledEnemy;
         powerUps = GetComponent<PowerUps>();
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         time += Time.deltaTime;
+
         
-        if (UpdateHealth != null)
+        if (UpdateHealth != null && !hudInitialized)
         {
             UpdateHealth(currentHealth / maxHealth * 100);
             UpdateAmmo(ammo);
             UpdateScore(score);
-        }   
+            hudInitialized = true;
+        }
     }
 
     public void AddKilledEnemy()
