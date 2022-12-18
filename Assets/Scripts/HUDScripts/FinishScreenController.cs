@@ -28,7 +28,7 @@ public class FinishScreenController: MonoBehaviour
     {
         Time.timeScale = 0f;
         score.text = "Score: " + stats.score.ToString();
-        time.text = "Time: " + Mathf.RoundToInt(stats.time).ToString();
+        time.text = "Time: " + timeToStr(stats.time);
         enemies.text = "Enemies killed: " + stats.enemiesKilled.ToString();
         var total = ComputeScore(stats.score, stats.time, stats.enemiesKilled);
         totalScore.text = "Total score: " + total.ToString();
@@ -59,9 +59,10 @@ public class FinishScreenController: MonoBehaviour
         }
     }
 
-    void Continue()
+    public void Continue()
     {
-        // load scene next level
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(nextLevel);
     }
 
     public void QuitToMenu()
@@ -78,4 +79,14 @@ public class FinishScreenController: MonoBehaviour
         
     }
 
+    string timeToStr(float time)
+    {
+        string res;
+
+        float secs = (time % 60);
+        int mins = (int)(time / 60);
+
+        res = mins.ToString("00") + ":" + secs.ToString("00.00");
+        return res;
+    }
 }

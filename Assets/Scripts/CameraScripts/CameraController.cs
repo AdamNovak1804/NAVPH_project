@@ -64,6 +64,11 @@ public class CameraController : MonoBehaviour
         nextRot = Quaternion.LookRotation(ipPositions[currIP + 2] - ipPositions[currIP + 1], Vector3.up) * Quaternion.Euler(angle, 0, 0);
     }
 
+    public void OnDisable()
+    {
+        PowerUps.UpdateSpeed -= ChangeFovToSpeed;
+    }
+
     // Update is called once per frame
     void Update()
     {

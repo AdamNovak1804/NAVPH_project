@@ -62,7 +62,7 @@ public class PlayerNavMesh : MonoBehaviour
 
             if (isAttacking <= 0f && distance < hitDistance)
             {
-                enemy.MeeleeAttack(player); 
+                enemy.MeeleeAttack(player, isAttacking); 
                 isAttacking = attackWait;
             }
         }
@@ -70,7 +70,10 @@ public class PlayerNavMesh : MonoBehaviour
         // If ranged - if in first range - setDestination
         if (enemyType == EnemyType.ranged) 
         {
-            if (isAttacking <= 0f) 
+            var distance = Vector3.Distance(transform.position, player.gameObject.transform.position);
+            navMeshAgent.destination = transform.position;
+
+            if (isAttacking <= 0f && distance < sightDistance) 
             {
                 enemy.RangeAttack();
                 isAttacking = attackWait;

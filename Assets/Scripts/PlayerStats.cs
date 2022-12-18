@@ -31,9 +31,10 @@ public class PlayerStats : MonoBehaviour
     private bool hudInitialized = false;
 
     private PowerUps powerUps;
+    private AudioManager audioManager;
 
     //private string powerUp = "none";
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,7 +44,7 @@ public class PlayerStats : MonoBehaviour
         Enemy.UpdateKilledEnemies += AddKilledEnemy;
         powerUps = GetComponent<PowerUps>();
 
-        
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -102,20 +103,24 @@ public class PlayerStats : MonoBehaviour
 
     public void DrainHealth(float value) 
     {
-        if (powerUps.isPowerUpActive && powerUps.activePowerUpName == "GodArmor") 
+        if (powerUps.isPowerUpActive && powerUps.activePowerUpName == CollectiblesScript.PowerUpType.GodArmor) 
         {
             powerUps.DeactivatePowerUp();
-        } 
+            return;
+        }
+
+        if (currentHealth <= 0f)
+        {
+            return;
+        }
         currentHealth -= value;
 
         UpdateHealth(currentHealth / maxHealth * 100);
 
         Debug.Log(currentHealth);
 
-        if (currentHealth < 0f) 
-        {
-            Debug.Log("PlayerStats Dies");
-        }
+        audioManager.Play("PlayerGrunt");
+
 
     }
 

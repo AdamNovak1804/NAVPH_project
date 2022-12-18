@@ -40,6 +40,8 @@ public class Projectile : MonoBehaviour
         
     }
 
+    
+
     public void ShootTowards(Transform startingPosition, Vector3 goalPosition) 
     {
         this.goalPosition = goalPosition;
@@ -49,26 +51,27 @@ public class Projectile : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log("Hit" + other.name);
-        if (isEnemyProjectile) 
+        if (isEnabled)
         {
-            PlayerStats player = (PlayerStats) other.GetComponent<PlayerStats>();
-            if (player != null) 
+            Debug.Log("Hit" + other.name);
+            if (isEnemyProjectile)
             {
-                player.DrainHealth(10f);
+                PlayerStats player = (PlayerStats)other.GetComponent<PlayerStats>();
+                if (player != null)
+                {
+                    player.DrainHealth(10f);
+                    this.gameObject.SetActive(false);
+                    Object.Destroy(this.gameObject);
+                }
+                return;
+            }
+            Enemy enemy = (Enemy)other.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
                 this.gameObject.SetActive(false);
                 Object.Destroy(this.gameObject);
             }
-        }
-        Enemy enemy = (Enemy) other.GetComponent<Enemy>();
-        if (enemy != null) 
-        {   
-            enemy.TakeDamage(damage);
-            this.gameObject.SetActive(false);
-            Object.Destroy(this.gameObject);
-        }
-        // Proces hit
+        } 
     }
-
-
 }
