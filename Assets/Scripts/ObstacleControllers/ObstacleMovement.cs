@@ -48,8 +48,6 @@ public class ObstacleMovement : MonoBehaviour
         {
             dirSpeed *= -1;
         }
-        Debug.Log(startVec.y);
-        Debug.Log(endVec.y);
     }
 
     // Update is called once per frame
@@ -81,12 +79,10 @@ public class ObstacleMovement : MonoBehaviour
                 case Directions.yDir:
                     if (transform.position.y > startVec.y && transform.position.y < endVec.y)
                     {
-                        Debug.Log(movement * dirSpeed * Time.deltaTime);
                         transform.Translate(movement * dirSpeed * Time.deltaTime, Space.World);
                     }    
                     else
                     {
-                        Debug.Log("kokot");
                         dirSpeed *= -1;
                         transform.Translate(movement * dirSpeed * Time.deltaTime, Space.World);
                     }

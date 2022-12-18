@@ -30,20 +30,6 @@ CapsuleCollider:
   m_Height: 3.8
   m_Direction: 1
   m_Center: {x: 0, y: 1.8, z: 0}
---- !u!136 &8165051967058953997
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4844361449324829827}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 3.8
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.8, z: 0}
 --- !u!114 &4427457356973938295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2223639932434330405, guid: 568de8705f78a6d41ab145e55f88a5ac, type: 3}
       propertyPath: m_Animations.Array.size
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2223639932434330405, guid: 568de8705f78a6d41ab145e55f88a5ac, type: 3}
       propertyPath: m_Animations.Array.data[4]

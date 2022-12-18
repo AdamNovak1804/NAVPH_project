@@ -17,6 +17,7 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(speed);
         if (Vector3.Distance(transform.position, goalPosition) < 0.01f)
         {
             targetHit = true;
@@ -61,7 +62,7 @@ public class Projectile : MonoBehaviour
                 PlayerStats player = (PlayerStats)other.GetComponent<PlayerStats>();
                 if (player != null)
                 {
-                    player.DrainHealth(10f);
+                    player.DrainHealth(damage);
                     this.gameObject.SetActive(false);
                     Object.Destroy(this.gameObject);
                 }
