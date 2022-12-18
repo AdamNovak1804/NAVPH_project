@@ -5,6 +5,7 @@ using UnityEngine;
 public class FightTrigger : MonoBehaviour
 {
     public GameObject boss;
+    public GameObject door;
 
     private Boss bossScript;
 
@@ -17,6 +18,8 @@ public class FightTrigger : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            door.SetActive(true);
+            
             bossScript.startFight();
             gameObject.SetActive(false);
             Destroy(gameObject);
