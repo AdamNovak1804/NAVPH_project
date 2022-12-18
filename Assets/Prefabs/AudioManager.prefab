@@ -104,3 +104,21 @@ MonoBehaviour:
     pitch: 0.97
     loop: 0
     audioSource: {fileID: 0}
+  - name: MissileHit
+    audioClip: {fileID: 8300000, guid: 9112516746d58a949af166806080180e, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: MissileLaunch
+    audioClip: {fileID: 8300000, guid: 037848b3e8883544dbc711d61e63d923, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: WallBreak
+    audioClip: {fileID: 8300000, guid: 35716ac003bdb9a48bd8f7f5b876f089, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}

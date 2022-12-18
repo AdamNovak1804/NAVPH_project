@@ -20,6 +20,7 @@ public class Missile : MonoBehaviour
         breaking
     }
     private MissileType thisMissile;
+    private AudioManager audioManager;
 
     public void setDamage(float damage)
     {
@@ -34,6 +35,7 @@ public class Missile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioManager = FindObjectOfType<AudioManager>();
         target = GameObject.FindWithTag("Player");
         player = target.GetComponent<PlayerStats>();
 
@@ -59,6 +61,8 @@ public class Missile : MonoBehaviour
     // Explode when hitting anything
     void OnCollisionEnter(Collision collision)
     {
+        audioManager.Play("MissileHit");
+
         Vector3 targetCenter = target.transform.position + new Vector3(0.0f, 1.8f, 0.0f);
 
         float distanceFromTarget = Vector3.Distance(targetCenter, transform.position);
