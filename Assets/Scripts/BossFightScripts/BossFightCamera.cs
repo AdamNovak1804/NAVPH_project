@@ -12,12 +12,10 @@ public class BossFightCamera : MonoBehaviour
     private bool moving = false;
     private Vector3 newPos;
     private Vector3 nextPos;
-    private Queue<Transform> positionQueue;
+    private Queue<Transform> positionQueue = new Queue<Transform>();
 
     public void fillPositionQueue()
     {
-        positionQueue = new Queue<Transform>();
-
         foreach(Transform x in positions)
         {
             positionQueue.Enqueue(x.transform);
