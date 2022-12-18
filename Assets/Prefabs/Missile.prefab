@@ -45,6 +45,7 @@ MonoBehaviour:
   lethalDistance: 3
   speed: 10
   ceilingHeight: 25
+  missileScale: 6
 --- !u!1001 &8388032960284226180
 PrefabInstance:
   m_ObjectHideFlags: 0

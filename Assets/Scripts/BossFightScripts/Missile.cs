@@ -75,7 +75,7 @@ public class Missile : MonoBehaviour
 
                 if (distanceFromTarget <= lethalDistance)
                 {
-                    //player.DrainHealth(damage);
+                    player.DrainHealth(damage);
                 }
                 break;
             case MissileType.breaking:
