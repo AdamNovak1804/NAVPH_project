@@ -82,7 +82,6 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float value) 
     {
-        Debug.Log("Ouch!");
         health -= (value - armor);
         audioManager.Play("ZombieGrunt");
     }
