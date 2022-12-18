@@ -5297,7 +5297,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8971420014981788171, guid: 6f64e72400711334fb138c488b47278d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.72
       objectReference: {fileID: 0}
     - target: {fileID: 8971420014981788180, guid: 6f64e72400711334fb138c488b47278d, type: 3}
       propertyPath: pushbackForce
@@ -7633,6 +7633,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1630330dfa0fb794bbc17f5b0e48b7dd, type: 3}
+--- !u!114 &1742398630 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8561945461086826308, guid: 929f91d9f10722e46a37b8d0476859ff, type: 3}
+  m_PrefabInstance: {fileID: 8561945461676821474}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c24e6de448682e44088afc3eb81b676a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1742703138
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,9 @@ TagManager:
   tags:
   - CameraRail
   - CameraCenter
+  - Enemy
+  - Coin
+  - GlassPane
   layers:
   - Default
   - TransparentFX
