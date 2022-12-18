@@ -88,9 +88,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 0
   player: {fileID: 0}
-  sightDistance: 8
+  sightDistance: 12
   attackWait: 3
-  hitDistance: 1
+  hitDistance: 2.5
   minDistance: 2
 --- !u!195 &3050995937658540954
 NavMeshAgent:
@@ -188,14 +188,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a1ca04de5d7582d4197099a47a03d7d3, type: 3}
       propertyPath: m_Name
-      value: NewEnemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: a1ca04de5d7582d4197099a47a03d7d3, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: a1ca04de5d7582d4197099a47a03d7d3, type: 3}
-      propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a1ca04de5d7582d4197099a47a03d7d3, type: 3}
