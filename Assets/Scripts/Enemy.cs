@@ -8,13 +8,15 @@ public class Enemy : MonoBehaviour
     const string MEELEE_ANIMATION = "Armature|Meelee";
     const string IDLE_ANIMATION = "Armature|Idle";
     const string WALKING_ANIMATION = "Armature|Walking";
+    const string SHOOTING_ANIMATION = "Armature|Shooting";
 
+    public float strength = 10f;
     public float health = 3f;
     public float damage = 0f;
     public float armor = 0f;
     public float dyingTime = 0.5f;
     public float waitAfterHit = 0.5f;
-    public float pushBack = 2.0F;
+
     public Transform pointOfRangeAttack;
     public GameObject projectile;
 
@@ -23,12 +25,18 @@ public class Enemy : MonoBehaviour
     private Rigidbody rb;
     private PlayerNavMesh playerNav;
 
+    public AudioManager audioManager;
+
+    public delegate void Died();
+    public static event Died UpdateKilledEnemies;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
         anim = this.GetComponent<Animation>();
         playerNav = GetComponent<PlayerNavMesh>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -54,7 +62,7 @@ public class Enemy : MonoBehaviour
         {
             anim.Play(WALKING_ANIMATION);
         }
-        else if (playerNav.GetMovingStatus() == false)
+        else if (playerNav.GetMovingStatus() == false && playerNav.GetWaiting() < 0.0f)
         {
             anim.Play(IDLE_ANIMATION);
         }
@@ -67,6 +75,7 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
+        UpdateKilledEnemies();
         this.gameObject.SetActive(false);
         Object.Destroy(this.gameObject);
     }
@@ -74,26 +83,42 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float value) 
     {
         health -= (value - armor);
+        audioManager.Play("ZombieGrunt");
     }
 
-    public void ApplyPushback()
+    public void ApplyPushback(Vector3 playerPos, float strength)
     {
-        transform.Translate(-Vector3.forward * pushBack);
+        rb.AddForce((this.transform.position - playerPos).normalized * strength, ForceMode.Impulse);
         playerNav.WaitAfterImpact(waitAfterHit);
     }
 
     public void RangeAttack() 
     {
         // Set better limits when projectiles are finished and speed is decided
+        this.transform.LookAt(playerNav.GetPlayerPosition().position);
         var obj =  Object.Instantiate(projectile.gameObject, pointOfRangeAttack.position, Quaternion.Euler(-90,0,0));
+
+        anim.Play(SHOOTING_ANIMATION);
         Projectile proj = (Projectile) obj.gameObject.GetComponent<Projectile>();
+        proj.isEnemyProjectile = true;
         proj.ShootTowards(pointOfRangeAttack, playerNav.GetPlayerPosition().position + new Vector3(0,1,0));
     }
 
-    public void MeeleeAttack(Player player)
+    public void MeeleeAttack(GameObject player, float isAtacking)
     {
         // Play animation of attack
         anim.Play(MEELEE_ANIMATION);
-        player.DrainHealth(damage);
+        if (isDying)
+        {
+            return;
+        }
+
+        if(player.GetComponent<PlayerCombatController>().isAttacking < isAtacking)
+        {
+            return;
+        }
+
+        player.GetComponent<PlayerStats>().DrainHealth(damage);
+        player.GetComponent<PlayerController>().AddKnockback(player.gameObject.transform.position - this.transform.position, strength);
     }
 }

@@ -1,7 +1,7 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!136 &154668494272880121
-CapsuleCollider:
+--- !u!65 &-8994876528545363052
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -10,9 +10,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.005979581
-  m_Height: 0.01914784
-  m_Direction: 2
+  serializedVersion: 2
+  m_Size: {x: 0.01, y: 0.01, z: 0.018}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4019250359993160202
 MonoBehaviour:
@@ -31,7 +30,7 @@ MonoBehaviour:
   start: -4
   end: 4
   speed: 4
-  offset: 0.1
+  offset: 0.3
   startLeft: 1
 --- !u!1001 &7657176998985957894
 PrefabInstance:

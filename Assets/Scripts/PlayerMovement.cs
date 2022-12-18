@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using static PlayerStats;
 
+// inspired by this https://www.youtube.com/watch?v=f473C43s8nE
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
@@ -66,6 +68,12 @@ public class PlayerMovement : MonoBehaviour
 
         PowerUps.UpdateDoubleJump += DoubleJumpEnabled;
         PowerUps.UpdateSpeed += SpeedEnabled;
+    }
+
+    void OnDisable()
+    {
+        PowerUps.UpdateDoubleJump -= DoubleJumpEnabled;
+        PowerUps.UpdateSpeed -= SpeedEnabled;
     }
 
     private void Update()

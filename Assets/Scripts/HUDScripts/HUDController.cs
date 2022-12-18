@@ -7,10 +7,10 @@ using static System.Net.Mime.MediaTypeNames;
 using Text = UnityEngine.UI.Text;
 using System.Runtime.InteropServices;
 using Image = UnityEngine.UI.Image;
+using UnityEngine.SceneManagement;
 
 public class HUDController : MonoBehaviour
 {
-    [SerializeField]
     public Slider healthBarAmount = null;
 
     public Text score = null;
@@ -35,15 +35,28 @@ public class HUDController : MonoBehaviour
 
         healthBarAmount.value = 100;
 
-        Player.UpdateHealth += UpdateHealthBar;
-        Player.UpdateAmmo += UpdateAmmo;
-        Player.UpdateScore += UpdateScore;
+        PlayerStats.UpdateHealth += UpdateHealthBar;
+        PlayerStats.UpdateAmmo += UpdateAmmo;
+
+        PlayerStats.UpdateScore += UpdateScore;
 
         PowerUps.UpdateDoubleJump += UpdateDoubleJump;
         PowerUps.UpdateSpeed += UpdateSpeed;
         PowerUps.UpdateGodArmor += UpdateGodArmor;
 
         powerUp.SetActive(false);
+    
+    }
+
+    void OnDisable()
+    {
+        PlayerStats.UpdateHealth -= UpdateHealthBar;
+        PlayerStats.UpdateAmmo -= UpdateAmmo;
+        PlayerStats.UpdateScore -= UpdateScore;
+
+        PowerUps.UpdateDoubleJump -= UpdateDoubleJump;
+        PowerUps.UpdateSpeed -= UpdateSpeed;
+        PowerUps.UpdateGodArmor -= UpdateGodArmor;
     }
 
     // Update is called once per frame

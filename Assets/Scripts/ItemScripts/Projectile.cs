@@ -17,58 +17,70 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(transform.position, goalPosition) < 0.01f) 
+        if (Vector3.Distance(transform.position, goalPosition) < 0.01f)
         {
             targetHit = true;
         }
-        if (isEnabled && lifeTime >= 0f && !targetHit) 
+        if (isEnabled && lifeTime >= 0f && !targetHit)
         {
             lifeTime -= Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, goalPosition, Time.deltaTime * speed);
-            
+
         }
-        if (isEnabled && lifeTime >= 0f && targetHit) 
+        if (isEnabled && lifeTime >= 0f && targetHit)
         {
             lifeTime -= Time.deltaTime;
             transform.position = transform.forward * Time.deltaTime * speed;
         }
-        if (lifeTime < 0f) 
+        if (lifeTime < 0f)
         {
             this.gameObject.SetActive(false);
             Object.Destroy(this.gameObject);
         }
-        
+
     }
 
-    public void ShootTowards(Transform startingPosition, Vector3 goalPosition) 
+    public void ShootTowards(Transform startingPosition, Vector3 goalPosition)
     {
         this.goalPosition = goalPosition;
         this.transform.LookAt(goalPosition);
-        transform.Rotate(new Vector3(-90,0,0));
+        transform.Rotate(new Vector3(-90, 0, 0));
         isEnabled = true;
     }
 
-    private void OnTriggerEnter(Collider other) {
-        Debug.Log("Hit" + other.name);
-        if (isEnemyProjectile) 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isEnabled)
         {
-            Player player = (Player) other.GetComponent<Player>();
-            if (player != null) 
+            if (isEnemyProjectile)
             {
-                player.DrainHealth(10f);
+                PlayerStats player = (PlayerStats)other.GetComponent<PlayerStats>();
+                if (player != null)
+                {
+                    player.DrainHealth(damage);
+                    this.gameObject.SetActive(false);
+                    Object.Destroy(this.gameObject);
+                }
+                return;
+            }
+            Enemy enemy = (Enemy)other.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
                 this.gameObject.SetActive(false);
                 Object.Destroy(this.gameObject);
             }
+            else
+            {
+                Boss boss = (Boss)other.GetComponent<Boss>();
+
+                if (boss != null)
+                {
+                    boss.HitTarget();
+                    this.gameObject.SetActive(false);
+                    Object.Destroy(this.gameObject);
+                }
+            }
         }
-        Enemy enemy = (Enemy) other.GetComponent<Enemy>();
-        if (enemy != null) 
-        {   
-            enemy.TakeDamage(damage);
-            this.gameObject.SetActive(false);
-            Object.Destroy(this.gameObject);
-        }
-        // Proces hit
     }
-
-
 }

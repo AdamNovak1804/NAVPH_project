@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     const string DEATH_ANIMATION = "Armature|Death";
     const string WALKING_ANIMATION = "Armature|Walking";
     const string IDLE_ANIMATION = "Armature|Idle";
+    const string MEELEE_ANIMATION = "Armature|Meelee";
+    const string SHOOTING_ANIMATION = "Armature|Shoot";
 
     public GameObject mainCamera;
 
@@ -21,16 +23,20 @@ public class PlayerController : MonoBehaviour
     private string actAnim = "";
     private bool isAlreadyDying = false;
     
-    private Player player;
+    private PlayerStats player;
     private Animation anim;
     private AudioManager audioManager;
     private PlayerCombatController playerCombatController;
     private Rigidbody rb;
 
+    public GameObject controller;
+    public GameObject hudController;
+    public GameObject deathScreen;
+
     void Start()
     {
         anim = GetComponent<Animation>();
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerStats>();
         playerCombatController = GetComponent<PlayerCombatController>();
         audioManager = FindObjectOfType<AudioManager>();
         rb = GetComponent<Rigidbody>();
@@ -44,14 +50,15 @@ public class PlayerController : MonoBehaviour
         if (player != null && (player.GetHealth() <= 0f || transform.position.y <= -8f))
         {
             // Process death
-            PlayAnim("Armature|Death");
+            PlayAnim(DEATH_ANIMATION);
             isAlreadyDying = true;
             isDying -= Time.deltaTime;
         }
 
         if (isDying <= 0f)
         {
-            SceneManager.LoadScene("IvoTestMenuScene");
+            deathScreen.SetActive(true);
+            hudController.SetActive(false);
         }
 
         if (isAlreadyDying)
@@ -61,14 +68,14 @@ public class PlayerController : MonoBehaviour
 
         if (anim.isPlaying.Equals(false))
         {
-            PlayAnim("Armature|Idle");
+            PlayAnim(IDLE_ANIMATION);
         }
         
 
         if (Input.GetButtonDown("MeleeAttack") && playerCombatController.isAttacking <= 0f) 
         {
-            playerCombatController.isAttacking = 1f;
-            PlayAnim("Armature|Meelee");
+            playerCombatController.isAttacking = 1.25f;
+            PlayAnim(MEELEE_ANIMATION);
             playerCombatController.shouldMeleeAttack = true;
         }
 
@@ -77,7 +84,7 @@ public class PlayerController : MonoBehaviour
             if (player.GetAmmo() >= 1f) 
             {
                 playerCombatController.isAttacking = 1.2f;
-                PlayAnim("Armature|Shoot");
+                PlayAnim(SHOOTING_ANIMATION);
                 playerCombatController.RangeAttack();
             }
             else 
@@ -86,12 +93,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // rotate when shooting 
-
-        /*if (playerCombatController.isShooting < 0.03f) 
-        {
-            transform.forward = direction;
-        }*/
+        
     }
 
 
@@ -102,13 +104,14 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision)
-    {
-
+    {      
         if (collision.transform.name == "FinishLine") 
         {
-            SceneManager.LoadScene("IvoFinishLineTestScene");
+            controller.SetActive(true);
+            hudController.SetActive(false);
         }
     }
+
 
     private void PlayAnim(string s) 
     {
@@ -128,7 +131,7 @@ public class PlayerController : MonoBehaviour
             {
                 anim.Stop();
             }
-            if (actAnim == "Armature|Meelee") 
+            if (actAnim == MEELEE_ANIMATION) 
             {
                 return;
             }

@@ -9,9 +9,18 @@ public class CollectiblesScript : MonoBehaviour
     public int ammoAddition = 0;
     public int healthAddition = 0;
     public float timeToBecomeCollectible = 0f;
-    public bool isPowerUp; 
+    public bool isPowerUp;
+    public PowerUpType powerUpName = PowerUpType.Random;
     private bool isCollectible = false;
     private AudioManager audioManager;
+
+    public enum PowerUpType
+    {
+        Random,
+        DoubleJump,
+        GodArmor,
+        Speed
+    }
     void Start()
     {
         audioManager = FindObjectOfType<AudioManager>();
@@ -27,30 +36,30 @@ public class CollectiblesScript : MonoBehaviour
             timeToBecomeCollectible -= Time.deltaTime;
         }
     }
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         if (isCollectible && other.transform.name == "Astronaut") 
         {
-            var player = (Player) other.transform.gameObject.GetComponent(typeof(Player));
-            player.AddScore(scoreAddition);
+            var player = (PlayerStats) other.transform.gameObject.GetComponent(typeof(PlayerStats));
             if (scoreAddition > 0) 
             {
+                player.AddScore(scoreAddition);
                 audioManager.Play("CoinPickup");
             }
-            player.AddAmmo(ammoAddition);
             if (ammoAddition > 0) 
             {
+                player.AddAmmo(ammoAddition);
                 audioManager.Play("AmmoPickup");
             }
-            player.AddHealth(healthAddition);
             if (healthAddition > 0) 
             {
+                player.AddHealth(healthAddition);
                 audioManager.Play("HealthPickup");
             }
             if (isPowerUp) 
             {
                 var powerUps = (PowerUps) other.transform.gameObject.GetComponent(typeof(PowerUps));
-                powerUps.ActivatePowerUp();
+                powerUps.ActivatePowerUp(powerUpName);
             }
             this.gameObject.SetActive(false);
             Object.Destroy(this.gameObject);

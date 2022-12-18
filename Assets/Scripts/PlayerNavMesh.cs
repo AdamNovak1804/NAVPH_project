@@ -12,9 +12,9 @@ public class PlayerNavMesh : MonoBehaviour
         ranged,
     }
     public EnemyType enemyType;
-    public Player player;
+    public GameObject player;
     public float sightDistance = 8.0f;
-    public float attackWait = 1.2f;
+    public float attackWait = 3f;
     public float hitDistance = 2.0f;
     public float minDistance = 2.0f;
 
@@ -27,6 +27,11 @@ public class PlayerNavMesh : MonoBehaviour
     private void Awake() {
         navMeshAgent = GetComponent<NavMeshAgent>();
         enemy = GetComponent<Enemy>();
+    }
+
+    public float GetWaiting()
+    {
+        return isWaiting;
     }
 
     // Update is called once per frame
@@ -62,7 +67,7 @@ public class PlayerNavMesh : MonoBehaviour
 
             if (isAttacking <= 0f && distance < hitDistance)
             {
-                enemy.MeeleeAttack(player);
+                enemy.MeeleeAttack(player, isAttacking); 
                 isAttacking = attackWait;
             }
         }
@@ -70,7 +75,10 @@ public class PlayerNavMesh : MonoBehaviour
         // If ranged - if in first range - setDestination
         if (enemyType == EnemyType.ranged) 
         {
-            if (isAttacking <= 0f) 
+            var distance = Vector3.Distance(transform.position, player.gameObject.transform.position);
+            navMeshAgent.destination = transform.position;
+
+            if (isAttacking <= 0f && distance < sightDistance) 
             {
                 enemy.RangeAttack();
                 isAttacking = attackWait;

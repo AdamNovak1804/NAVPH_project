@@ -9,11 +9,6 @@ public class FallablePlatformMovement : MonoBehaviour
 
     private float timeToCrumble = 1f;
     private float timeToWaitDown = 0f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()

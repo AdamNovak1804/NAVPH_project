@@ -93,10 +93,10 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8603378177597110929}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: e019c8ac926e1294a8e1173a09e68fd2, type: 3}
 --- !u!114 &8909315297877338581
@@ -127,3 +127,5 @@ MonoBehaviour:
   ammoAddition: 0
   healthAddition: 2
   timeToBecomeCollectible: 0
+  isPowerUp: 0
+  powerUpName: 0

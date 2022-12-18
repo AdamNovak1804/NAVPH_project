@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1640432981237056050
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1640432981237056060}
+  - component: {fileID: 1640432981237056061}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1640432981237056060
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640432981237056050}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1640432981237056061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640432981237056050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aadf755bb9cd804d9482587dcdba7b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: PlayerLaserShot
+    audioClip: {fileID: 8300000, guid: 10060379a24c7ee4bb6b60142e6ad494, type: 3}
+    volume: 0.701
+    pitch: 1.06
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: CoinPickup
+    audioClip: {fileID: 8300000, guid: 1b1971c1aee2612429d734a60410f430, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: BreakObject
+    audioClip: {fileID: 8300000, guid: 8ff2d9ae3fd590840bebf5f530f475b2, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: HealthPickup
+    audioClip: {fileID: 8300000, guid: af4770538ac9f7c41ad50b37bbec513d, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: AmmoPickup
+    audioClip: {fileID: 8300000, guid: 86e47f7cd919d0a46970c39a24082ca2, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: NoAmmo
+    audioClip: {fileID: 8300000, guid: 822a7588c5cc53648990b46cf3e757ee, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: PowerUpEnabled
+    audioClip: {fileID: 8300000, guid: 3f73a300a08218940b77d6a6dbb10370, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: PowerUpDisabled
+    audioClip: {fileID: 8300000, guid: 16d1547dba60e9446be38a4fc996d1ad, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: PlayerGrunt
+    audioClip: {fileID: 8300000, guid: 14a1f4c148646ec488450a6f724ad686, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: ZombieGrunt
+    audioClip: {fileID: 8300000, guid: 1f4f4a05e199f2442b2ce67882c90c6a, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: MissileHit
+    audioClip: {fileID: 8300000, guid: 9112516746d58a949af166806080180e, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: MissileLaunch
+    audioClip: {fileID: 8300000, guid: 037848b3e8883544dbc711d61e63d923, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: WallBreak
+    audioClip: {fileID: 8300000, guid: 35716ac003bdb9a48bd8f7f5b876f089, type: 3}
+    volume: 0.45
+    pitch: 0.97
+    loop: 0
+    audioSource: {fileID: 0}

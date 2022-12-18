@@ -10,8 +10,7 @@ public class DamagingObstacle : MonoBehaviour
     {
         if (other.gameObject.name == "Astronaut") 
         {
-            Debug.Log("Detect hit");
-            Player player = other.gameObject.GetComponent<Player>();
+            PlayerStats player = other.gameObject.GetComponent<PlayerStats>();
             PlayerController controller = other.gameObject.GetComponent<PlayerController>();
 
             if (player != null) 

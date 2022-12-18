@@ -18,8 +18,10 @@ public class PlayerCombatController : MonoBehaviour
     public float rangeOfMeleeAttack = 0.5f;
     public float rangeOfScan = 10f;
     public float isShooting = 0.0f;
+    public float pushbackForce = 50f;
+    public float effectiveAttack = 0.6f;
 
-    private Player player;
+    private PlayerStats player;
     private bool enemyLocked = false;
     private GameObject closestEnemy;
     private GameObject targetedEnemy;
@@ -28,7 +30,7 @@ public class PlayerCombatController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<Player>();
+        player = GetComponent<PlayerStats>();
         audioManager = FindObjectOfType<AudioManager>();
     }
 
@@ -60,7 +62,7 @@ public class PlayerCombatController : MonoBehaviour
             }
         }
         
-        if (shouldMeleeAttack && isAttacking <= 0.25f) 
+        if (shouldMeleeAttack && isAttacking <= effectiveAttack) 
         {
             MakeMeleeImpact();
             shouldMeleeAttack = false;
@@ -78,7 +80,7 @@ public class PlayerCombatController : MonoBehaviour
             if (enemyScript != null)
             {
                 enemyScript.TakeDamage(player.GetDamage());
-                enemyScript.ApplyPushback();
+                enemyScript.ApplyPushback(this.transform.position, pushbackForce);
                 return;
             }
             BreakableScript breakableScript = (BreakableScript) enemy.GetComponent<BreakableScript>();
@@ -132,6 +134,7 @@ public class PlayerCombatController : MonoBehaviour
             foreach (Collider enemy in enemies) 
             {
                 Enemy enemyScript = (Enemy) enemy.GetComponent<Enemy>();
+                // for the regular enemies
                 if (enemyScript != null) 
                 {
                     if (!locatedFirst) 
@@ -143,6 +146,17 @@ public class PlayerCombatController : MonoBehaviour
                     }
                     if (Vector3.Distance(transform.position, closestEnemy.transform.position) > Vector3.Distance(transform.position, enemy.gameObject.transform.position))
                     {
+                        closestEnemy = enemy.gameObject;
+                    }
+                }
+                // for the boss
+                else
+                {
+                    Boss script = (Boss) enemy.GetComponent<Boss>();
+
+                    if (script != null)
+                    {
+                        enemyLocked = true;
                         closestEnemy = enemy.gameObject;
                     }
                 }

@@ -53,6 +53,7 @@ public class ObstacleMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (isEnabled)
         {
             switch(direction)
@@ -77,7 +78,9 @@ public class ObstacleMovement : MonoBehaviour
                     break;
                 case Directions.yDir:
                     if (transform.position.y > startVec.y && transform.position.y < endVec.y)
+                    {
                         transform.Translate(movement * dirSpeed * Time.deltaTime, Space.World);
+                    }    
                     else
                     {
                         dirSpeed *= -1;
@@ -96,7 +99,7 @@ public class ObstacleMovement : MonoBehaviour
         if (other.gameObject.name == "Astronaut")
         {
 
-            Player player = other.gameObject.GetComponent<Player>();
+            PlayerStats player = other.gameObject.GetComponent<PlayerStats>();
             PlayerController controller = other.gameObject.GetComponent<PlayerController>();
 
             if (player != null)
