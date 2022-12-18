@@ -40,8 +40,6 @@ public class Projectile : MonoBehaviour
 
     }
 
-
-
     public void ShootTowards(Transform startingPosition, Vector3 goalPosition)
     {
         this.goalPosition = goalPosition;
@@ -50,12 +48,10 @@ public class Projectile : MonoBehaviour
         isEnabled = true;
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
         if (isEnabled)
         {
-            Debug.Log("Hit" + other.name);
             if (isEnemyProjectile)
             {
                 PlayerStats player = (PlayerStats)other.GetComponent<PlayerStats>();

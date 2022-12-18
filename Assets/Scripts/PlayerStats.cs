@@ -52,7 +52,6 @@ public class PlayerStats : MonoBehaviour
     {
         time += Time.deltaTime;
 
-        
         if (UpdateHealth != null && !hudInitialized)
         {
             UpdateHealth(currentHealth / maxHealth * 100);
@@ -69,32 +68,30 @@ public class PlayerStats : MonoBehaviour
     {
         enemiesKilled++;
     }
+
     public void AddScore(int value) 
     {
         score += value;
         UpdateScore(score);
-        Debug.LogFormat("Current score is {0}", score);
     }
 
     public void AddAmmo(int value) 
     {
         ammo += value;
         UpdateAmmo(ammo);
-        Debug.LogFormat("Current ammo is {0}", ammo);
-        
     }
 
     public void AddHealth(float value) 
     {
-        if (currentHealth + value > maxHealth) {
-            currentHealth = maxHealth;
-            
-        } else 
+        if (currentHealth + value > maxHealth)
+        {
+            currentHealth = maxHealth;    
+        } 
+        else
         {
             currentHealth += value;
         }
         UpdateHealth(currentHealth / maxHealth * 100);
-        Debug.LogFormat("Current health is {0}", currentHealth);
     }
 
 
@@ -111,20 +108,13 @@ public class PlayerStats : MonoBehaviour
             powerUps.DeactivatePowerUp();
             return;
         }
-
         if (currentHealth <= 0f)
         {
             return;
         }
         currentHealth -= value;
-
         UpdateHealth(currentHealth / maxHealth * 100);
-
-        Debug.Log(currentHealth);
-
         audioManager.Play("PlayerGrunt");
-
-
     }
 
     public float GetDamage() 

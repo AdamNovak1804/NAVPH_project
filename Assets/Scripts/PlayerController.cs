@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     const string DEATH_ANIMATION = "Armature|Death";
     const string WALKING_ANIMATION = "Armature|Walking";
     const string IDLE_ANIMATION = "Armature|Idle";
+    const string MEELEE_ANIMATION = "Armature|Meelee";
+    const string SHOOTING_ANIMATION = "Armature|Shoot";
 
     public GameObject mainCamera;
 
@@ -48,7 +50,7 @@ public class PlayerController : MonoBehaviour
         if (player != null && (player.GetHealth() <= 0f || transform.position.y <= -8f))
         {
             // Process death
-            PlayAnim("Armature|Death");
+            PlayAnim(DEATH_ANIMATION);
             isAlreadyDying = true;
             isDying -= Time.deltaTime;
         }
@@ -66,14 +68,14 @@ public class PlayerController : MonoBehaviour
 
         if (anim.isPlaying.Equals(false))
         {
-            PlayAnim("Armature|Idle");
+            PlayAnim(IDLE_ANIMATION);
         }
         
 
         if (Input.GetButtonDown("MeleeAttack") && playerCombatController.isAttacking <= 0f) 
         {
             playerCombatController.isAttacking = 1.25f;
-            PlayAnim("Armature|Meelee");
+            PlayAnim(MEELEE_ANIMATION);
             playerCombatController.shouldMeleeAttack = true;
         }
 
@@ -82,7 +84,7 @@ public class PlayerController : MonoBehaviour
             if (player.GetAmmo() >= 1f) 
             {
                 playerCombatController.isAttacking = 1.2f;
-                PlayAnim("Armature|Shoot");
+                PlayAnim(SHOOTING_ANIMATION);
                 playerCombatController.RangeAttack();
             }
             else 
@@ -103,7 +105,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {      
-
         if (collision.transform.name == "FinishLine") 
         {
             controller.gameObject.SetActive(true);
@@ -130,7 +131,7 @@ public class PlayerController : MonoBehaviour
             {
                 anim.Stop();
             }
-            if (actAnim == "Armature|Meelee") 
+            if (actAnim == MEELEE_ANIMATION) 
             {
                 return;
             }
