@@ -7,7 +7,6 @@ public class Boss : MonoBehaviour
 {
     public int lives = 3;
     public float missileDelay = 1.0f;
-    public float tmpTester;
     public float explosiveMissileDamage = 2.0f;
     public int explosionsByLevel = 5;
     public float waitInterval = 2.0f;
@@ -58,8 +57,6 @@ public class Boss : MonoBehaviour
     {
         if (actState == BossState.vulnerable)
         {
-            Debug.Log("Ouuuchh!");
-
             lives -= 1;
             actVulnerableTime = vulnerableTime;
 
@@ -140,15 +137,8 @@ public class Boss : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(lookAtTarget);
         }
 
-        // only testing the fight has begun abiilty
-        if ((tmpTester -= Time.deltaTime) < 0.0f)
-        {
-            fightHasBegun = true;
-        }
-
         if (actionQueue.Count == 0)
         {
-            Debug.Log("Filling action queue!");
             FillActionQueue();
         }
 
@@ -177,7 +167,6 @@ public class Boss : MonoBehaviour
 
                 if (transform.position == targetPosition)
                 {
-                    Debug.Log("I'm here to fight!");
                     actState = BossState.idle;
                 }
                 break;

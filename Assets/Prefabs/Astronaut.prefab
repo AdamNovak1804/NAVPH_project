@@ -1559,6 +1559,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
+  controller: {fileID: 0}
+  hudController: {fileID: 0}
+  deathScreen: {fileID: 0}
 --- !u!114 &8971420014981788180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1580,6 +1583,7 @@ MonoBehaviour:
   rangeOfMeleeAttack: 0.8
   rangeOfScan: 10
   isShooting: 0
+  pushbackForce: 50
 --- !u!114 &8971420014981788168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1597,6 +1601,10 @@ MonoBehaviour:
   currentHealth: 7
   score: 0
   ammo: 5
+  time: 0
+  enemiesKilled: 0
+  maxScore: 0
+  maxEnemies: 0
 --- !u!114 &9043934237123433345
 MonoBehaviour:
   m_ObjectHideFlags: 0
