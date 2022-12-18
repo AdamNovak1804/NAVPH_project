@@ -70,6 +70,7 @@ public class FinishScreenController: MonoBehaviour
     }
     public void RestartLevel()
     {
+        Time.timeScale = 1f;
         this.gameObject.SetActive(false);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
