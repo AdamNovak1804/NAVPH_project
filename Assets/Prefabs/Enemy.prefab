@@ -88,7 +88,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 0
   player: {fileID: 0}
-  sightDistance: 12
+  sightDistance: 8
   attackWait: 3
   hitDistance: 2.5
   minDistance: 2
