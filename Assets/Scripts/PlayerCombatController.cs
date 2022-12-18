@@ -97,7 +97,7 @@ public class PlayerCombatController : MonoBehaviour
         var obj =  Object.Instantiate(projectile.gameObject, pointOfMeleeAttack.position, Quaternion.Euler(-90,0,0));
         Projectile proj = (Projectile) obj.gameObject.GetComponent<Projectile>();
         player.UseAmmo();
-        audioManager.Play("PlayerLaserShot");
+        //audioManager.Play("PlayerLaserShot");
         if (enemyLocked && targetedEnemy != null) 
         {
             targetedEnemy.SetActive(false);
@@ -133,6 +133,7 @@ public class PlayerCombatController : MonoBehaviour
             foreach (Collider enemy in enemies) 
             {
                 Enemy enemyScript = (Enemy) enemy.GetComponent<Enemy>();
+                // for the regular enemies
                 if (enemyScript != null) 
                 {
                     if (!locatedFirst) 
@@ -144,6 +145,17 @@ public class PlayerCombatController : MonoBehaviour
                     }
                     if (Vector3.Distance(transform.position, closestEnemy.transform.position) > Vector3.Distance(transform.position, enemy.gameObject.transform.position))
                     {
+                        closestEnemy = enemy.gameObject;
+                    }
+                }
+                // for the boss
+                else
+                {
+                    Boss script = (Boss) enemy.GetComponent<Boss>();
+
+                    if (script != null)
+                    {
+                        enemyLocked = true;
                         closestEnemy = enemy.gameObject;
                     }
                 }

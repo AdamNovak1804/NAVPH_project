@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
+    public int lives = 3;
     public float missileDelay = 1.0f;
-    public GameObject missile;
     public float tmpTester;
     public float explosiveMissileDamage = 2.0f;
     public int explosionsByLevel = 5;
@@ -14,11 +14,20 @@ public class Boss : MonoBehaviour
     
     public Texture explosiveMissileTexture;
     public Texture breakingMissileTexture;
-    private float actVulnerableTime;
+    public GameObject missile;
+    public GameObject target;
+    public Camera camera;
 
     private const string IDLE_ANIMATION = "Armature|Idle";
     private const string WALKING_ANIMATION = "Armature|Walking";
     private const string SHOOTING_ANIMATION = "Armature|Shoot";
+    private const string TAKE_DAMAGE_ANIMATION = "Armature|TakeDamage";
+
+    private float actMissileDelay = 1.0f;
+    private float actWaitingTime;
+    private float actVulnerableTime;
+    private bool hasShot = false;
+    private bool fightHasBegun = false;
 
     private enum BossState
     {
@@ -35,12 +44,16 @@ public class Boss : MonoBehaviour
     private Dictionary<int, string> bossStates;
     private Animation anim;
     private BossState actState;
-    private float actMissileDelay = 1.0f;
-    private float actWaitingTime;
-    private bool hasShot = false;
-    private bool fightHasBegun = false;
-
+    private BossFightCamera cameraScript;
     private Queue<BossState> actionList = new Queue<BossState>();
+
+    public void TakeDamage()
+    {
+        Debug.Log("Ouuuchh!");
+
+        lives -= 1;
+        actState = BossState.beingHurt;
+    }
 
     public void startFight()
     {
@@ -58,6 +71,11 @@ public class Boss : MonoBehaviour
         actionList.Enqueue(BossState.vulnerable);
     }
 
+    private bool ShouldBeTurning()
+    {
+        return ((actState != BossState.walking && actState != BossState.beingHurt && actState != BossState.dying));
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -71,12 +89,22 @@ public class Boss : MonoBehaviour
 
         shield = gameObject.transform.GetChild(1).gameObject;
         anim = gameObject.GetComponent<Animation>();
+        cameraScript = camera.gameObject.GetComponent<BossFightCamera>();
         actState = BossState.idle;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (ShouldBeTurning())
+        {
+            Vector3 targetDirection = target.transform.position - transform.position;
+            Vector3 lookAtTarget = Vector3.RotateTowards(transform.forward, targetDirection, 1.0f * Time.deltaTime, 0.0f);
+            lookAtTarget.y = 0;
+
+            transform.rotation = Quaternion.LookRotation(lookAtTarget);
+        }
+
         // only testing the fight has begun abiilty
         if ((tmpTester -= Time.deltaTime) < 0.0f)
         {
@@ -132,6 +160,20 @@ public class Boss : MonoBehaviour
                 {
                     shield.SetActive(true);
                     actState = BossState.idle;
+                }
+                break;
+            case BossState.beingHurt:
+                actWaitingTime -= Time.deltaTime;
+
+                if (!anim.IsPlaying(TAKE_DAMAGE_ANIMATION))
+                {
+                    anim.Play(TAKE_DAMAGE_ANIMATION);
+                }
+
+                if (actWaitingTime <= 0.0f)
+                {
+                    cameraScript.nextPosition();
+                    actState = BossState.walking;
                 }
                 break;
         }

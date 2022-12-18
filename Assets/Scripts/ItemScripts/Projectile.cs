@@ -48,7 +48,8 @@ public class Projectile : MonoBehaviour
         isEnabled = true;
     }
 
-    private void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter(Collider other)
+    {
         Debug.Log("Hit" + other.name);
         if (isEnemyProjectile) 
         {
@@ -67,7 +68,17 @@ public class Projectile : MonoBehaviour
             this.gameObject.SetActive(false);
             Object.Destroy(this.gameObject);
         }
-        // Proces hit
+        else
+        {
+            Boss boss = (Boss) other.GetComponent<Boss>();
+
+            if (boss != null)
+            {
+                boss.TakeDamage();
+                this.gameObject.SetActive(false);
+                Object.Destroy(this.gameObject);
+            }
+        }
     }
 
 
