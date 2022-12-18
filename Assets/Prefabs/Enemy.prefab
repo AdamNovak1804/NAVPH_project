@@ -81,7 +81,7 @@ MonoBehaviour:
   dyingTime: 0.5
   waitAfterHit: 1.2
   pointOfRangeAttack: {fileID: 2596154818195340785}
-  projectile: {fileID: 9176935318651262286, guid: a167f35152783e043bb7139211ca8f30, type: 3}
+  projectile: {fileID: 4036398523228474777, guid: a680c9a955a7a4a4b89d8e1838dd33ca, type: 3}
   audioManager: {fileID: 0}
 --- !u!195 &8785092183129639948
 NavMeshAgent:

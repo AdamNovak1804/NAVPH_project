@@ -34,8 +34,6 @@ public class Missile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Missile Active!");
-
         target = GameObject.FindWithTag("Player");
         player = target.GetComponent<PlayerStats>();
 
@@ -50,7 +48,6 @@ public class Missile : MonoBehaviour
         // the missile reached off camera, translate to target cursor
         if (transform.position.y >= ceilingHeight)
         {
-            Debug.Log("I'm going down!");
             Vector3 newPos = new Vector3(target.transform.position.x, transform.position.y - 0.1f, target.transform.position.z);
             transform.position = newPos;
             transform.localScale *= missileScale;
@@ -62,8 +59,6 @@ public class Missile : MonoBehaviour
     // Explode when hitting anything
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("I hit!");
-
         Vector3 targetCenter = target.transform.position + new Vector3(0.0f, 1.8f, 0.0f);
 
         float distanceFromTarget = Vector3.Distance(targetCenter, transform.position);
@@ -71,25 +66,19 @@ public class Missile : MonoBehaviour
         switch (thisMissile)
         {
             case MissileType.explosive:
-                Debug.Log("Explosive missile goes Boom!");
-
                 if (distanceFromTarget <= lethalDistance)
                 {
                     player.DrainHealth(damage);
                 }
                 break;
             case MissileType.breaking:
-                Debug.Log("Breaking missile goes Boom!");
-
                 if (collision.gameObject.tag == "GlassPane")
                 {
                     collision.gameObject.SetActive(false);
                 }
-
                 break;
        }
 
-        Debug.Log("I blew up!");
         gameObject.SetActive(false);
         Destroy(gameObject);
     }
