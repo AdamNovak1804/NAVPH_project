@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Boss : MonoBehaviour
 {
@@ -23,10 +24,12 @@ public class Boss : MonoBehaviour
     private const string WALKING_ANIMATION = "Armature|Walking";
     private const string SHOOTING_ANIMATION = "Armature|Shoot";
     private const string TAKE_DAMAGE_ANIMATION = "Armature|TakeDamage";
+    private const string DYING_ANIMATION = "Armature|Die";
 
     private float actMissileDelay = 1.0f;
     private float actWaitingTime;
     private float actVulnerableTime;
+    private bool hasDied = false;
     private bool hasShot = false;
     private bool fightHasBegun = false;
 
@@ -47,15 +50,32 @@ public class Boss : MonoBehaviour
     private Animation anim;
     private BossState actState;
     private BossFightCamera cameraScript;
+    private NavMeshAgent navMeshAgent;
     private Queue<BossState> actionQueue = new Queue<BossState>();
     private Queue<Vector3> positionQueue = new Queue<Vector3>();
 
-    public void TakeDamage()
+    public void HitTarget()
     {
-        Debug.Log("Ouuuchh!");
+        if (actState == BossState.vulnerable)
+        {
+            Debug.Log("Ouuuchh!");
 
-        lives -= 1;
-        actState = BossState.beingHurt;
+            lives -= 1;
+            actVulnerableTime = vulnerableTime;
+
+            // if all lives had been lost then die
+            if (lives == 0)
+            {
+                actState = BossState.dying;
+            }
+            // go to the next position
+            else
+            {
+                shield.SetActive(true);
+                actWaitingTime = waitInterval;
+                actState = BossState.beingHurt;
+            }
+        }
     }
 
     public void startFight()
@@ -103,6 +123,7 @@ public class Boss : MonoBehaviour
 
         shield = gameObject.transform.GetChild(1).gameObject;
         anim = gameObject.GetComponent<Animation>();
+        navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
         cameraScript = camera.gameObject.GetComponent<BossFightCamera>();
         actState = BossState.idle;
     }
@@ -127,6 +148,7 @@ public class Boss : MonoBehaviour
 
         if (actionQueue.Count == 0)
         {
+            Debug.Log("Filling action queue!");
             FillActionQueue();
         }
 
@@ -153,11 +175,11 @@ public class Boss : MonoBehaviour
                     anim.Play(WALKING_ANIMATION);
                 }
 
-                if (targetPosition == null)
+                if (transform.position == targetPosition)
                 {
-                    targetPosition = positionQueue.Dequeue();
+                    Debug.Log("I'm here to fight!");
+                    actState = BossState.idle;
                 }
-
                 break;
             case BossState.shootingExplosive:
                 HandleMissileShooting("explosive", explosiveMissileTexture);
@@ -177,6 +199,7 @@ public class Boss : MonoBehaviour
                 if (actVulnerableTime < 0.0f)
                 {
                     shield.SetActive(true);
+                    actVulnerableTime = vulnerableTime;
                     actState = BossState.idle;
                 }
                 break;
@@ -193,6 +216,24 @@ public class Boss : MonoBehaviour
                     actWaitingTime = waitInterval;
                     cameraScript.nextPosition();
                     actState = BossState.walking;
+                    targetPosition = positionQueue.Dequeue();
+                    targetPosition.y = transform.position.y;
+                    navMeshAgent.SetDestination(targetPosition);
+                }
+                break;
+            case BossState.dying:
+                if (!anim.IsPlaying(DYING_ANIMATION))
+                {
+                    anim.Play(DYING_ANIMATION);
+
+                    if (hasDied == true)
+                    {
+                        gameObject.SetActive(false);
+                        Destroy(gameObject);
+                        // destroy the wall beneath the boss
+                    }
+
+                    hasDied = true;
                 }
                 break;
         }
