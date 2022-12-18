@@ -1484,7 +1484,7 @@ GameObject:
   - component: {fileID: -1328016812710529165}
   - component: {fileID: -4186571088771073601}
   - component: {fileID: 5590614942064558827}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Astronaut
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1585,6 +1585,7 @@ MonoBehaviour:
   rangeOfScan: 10
   isShooting: 0
   pushbackForce: 10
+  effectiveAttack: 0.6
 --- !u!114 &8971420014981788168
 MonoBehaviour:
   m_ObjectHideFlags: 0
