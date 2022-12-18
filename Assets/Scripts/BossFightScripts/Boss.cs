@@ -9,6 +9,7 @@ public class Boss : MonoBehaviour
     public float tmpTester;
     public float explosiveMissileDamage = 2.0f;
     public int explosionsByLevel = 5;
+    public float waitInterval = 2.0f;
     public float vulnerableTime = 5.0f;
     
     public Texture explosiveMissileTexture;
@@ -30,10 +31,12 @@ public class Boss : MonoBehaviour
         vulnerable
     }
 
+    private GameObject shield;
     private Dictionary<int, string> bossStates;
     private Animation anim;
     private BossState actState;
     private float actMissileDelay = 1.0f;
+    private float actWaitingTime;
     private bool hasShot = false;
     private bool fightHasBegun = false;
 
@@ -59,12 +62,14 @@ public class Boss : MonoBehaviour
     void Start()
     {
         actVulnerableTime = vulnerableTime;
+        actWaitingTime = 0.0f;
 
         bossStates = new Dictionary<int, string>() {
             {0, "shootingExplosive"},
             {1, "shootingBreaking"},
         };
 
+        shield = gameObject.transform.GetChild(1).gameObject;
         anim = gameObject.GetComponent<Animation>();
         actState = BossState.idle;
     }
@@ -87,14 +92,17 @@ public class Boss : MonoBehaviour
         switch(actState) 
         {
             case BossState.idle:
+                actWaitingTime -= Time.deltaTime;
+
                 if (!anim.IsPlaying(IDLE_ANIMATION))
                 {
                     anim.Play(IDLE_ANIMATION);
+                }
                     
-                    if (fightHasBegun == true)
-                    {
-                        actState = actionList.Dequeue();
-                    }
+                if (fightHasBegun == true && actWaitingTime <= 0.0f)
+                {
+                    actWaitingTime = waitInterval;
+                    actState = actionList.Dequeue();
                 }
                 break;
             case BossState.walking:
@@ -117,10 +125,12 @@ public class Boss : MonoBehaviour
                     anim.Play(IDLE_ANIMATION);
                 }
 
+                shield.SetActive(false);
                 actVulnerableTime -= Time.deltaTime;
 
                 if (actVulnerableTime < 0.0f)
                 {
+                    shield.SetActive(true);
                     actState = BossState.idle;
                 }
                 break;
