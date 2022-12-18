@@ -37,6 +37,7 @@ public class HUDController : MonoBehaviour
 
         PlayerStats.UpdateHealth += UpdateHealthBar;
         PlayerStats.UpdateAmmo += UpdateAmmo;
+
         PlayerStats.UpdateScore += UpdateScore;
 
         PowerUps.UpdateDoubleJump += UpdateDoubleJump;
@@ -44,6 +45,7 @@ public class HUDController : MonoBehaviour
         PowerUps.UpdateGodArmor += UpdateGodArmor;
 
         powerUp.SetActive(false);
+    
     }
 
     void OnDisable()

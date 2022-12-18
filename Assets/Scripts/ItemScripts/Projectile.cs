@@ -17,40 +17,42 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(transform.position, goalPosition) < 0.01f) 
+        if (Vector3.Distance(transform.position, goalPosition) < 0.01f)
         {
             targetHit = true;
         }
-        if (isEnabled && lifeTime >= 0f && !targetHit) 
+        if (isEnabled && lifeTime >= 0f && !targetHit)
         {
             lifeTime -= Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, goalPosition, Time.deltaTime * speed);
-            
+
         }
-        if (isEnabled && lifeTime >= 0f && targetHit) 
+        if (isEnabled && lifeTime >= 0f && targetHit)
         {
             lifeTime -= Time.deltaTime;
             transform.position = transform.forward * Time.deltaTime * speed;
         }
-        if (lifeTime < 0f) 
+        if (lifeTime < 0f)
         {
             this.gameObject.SetActive(false);
             Object.Destroy(this.gameObject);
         }
-        
+
     }
 
-    
 
-    public void ShootTowards(Transform startingPosition, Vector3 goalPosition) 
+
+    public void ShootTowards(Transform startingPosition, Vector3 goalPosition)
     {
         this.goalPosition = goalPosition;
         this.transform.LookAt(goalPosition);
-        transform.Rotate(new Vector3(-90,0,0));
+        transform.Rotate(new Vector3(-90, 0, 0));
         isEnabled = true;
     }
 
-    private void OnTriggerEnter(Collider other) {
+
+    private void OnTriggerEnter(Collider other)
+    {
         if (isEnabled)
         {
             Debug.Log("Hit" + other.name);
@@ -72,6 +74,17 @@ public class Projectile : MonoBehaviour
                 this.gameObject.SetActive(false);
                 Object.Destroy(this.gameObject);
             }
-        } 
+            else
+            {
+                Boss boss = (Boss)other.GetComponent<Boss>();
+
+                if (boss != null)
+                {
+                    boss.HitTarget();
+                    this.gameObject.SetActive(false);
+                    Object.Destroy(this.gameObject);
+                }
+            }
+        }
     }
 }

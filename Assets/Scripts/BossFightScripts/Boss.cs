@@ -1,24 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Boss : MonoBehaviour
 {
+    public int lives = 3;
     public float missileDelay = 1.0f;
-    public GameObject missile;
-    public float tmpTester;
     public float explosiveMissileDamage = 2.0f;
     public int explosionsByLevel = 5;
     public float waitInterval = 2.0f;
     public float vulnerableTime = 5.0f;
     
+    public GameObject arena;
+    public Transform[] bossPositions;
     public Texture explosiveMissileTexture;
     public Texture breakingMissileTexture;
-    private float actVulnerableTime;
+    public GameObject missile;
+    public GameObject target;
+    public Camera camera;
 
     private const string IDLE_ANIMATION = "Armature|Idle";
     private const string WALKING_ANIMATION = "Armature|Walking";
     private const string SHOOTING_ANIMATION = "Armature|Shoot";
+    private const string TAKE_DAMAGE_ANIMATION = "Armature|TakeDamage";
+    private const string DYING_ANIMATION = "Armature|Die";
+
+    private float actMissileDelay = 1.0f;
+    private float actWaitingTime;
+    private float actVulnerableTime;
+    private bool hasDied = false;
+    private bool hasShot = false;
+    private bool fightHasBegun = false;
 
     private enum BossState
     {
@@ -31,16 +44,37 @@ public class Boss : MonoBehaviour
         vulnerable
     }
 
+    private Vector3 targetPosition;
     private GameObject shield;
     private Dictionary<int, string> bossStates;
     private Animation anim;
     private BossState actState;
-    private float actMissileDelay = 1.0f;
-    private float actWaitingTime;
-    private bool hasShot = false;
-    private bool fightHasBegun = false;
+    private BossFightCamera cameraScript;
+    private NavMeshAgent navMeshAgent;
+    private Queue<BossState> actionQueue = new Queue<BossState>();
+    private Queue<Vector3> positionQueue = new Queue<Vector3>();
 
-    private Queue<BossState> actionList = new Queue<BossState>();
+    public void HitTarget()
+    {
+        if (actState == BossState.vulnerable)
+        {
+            lives -= 1;
+            actVulnerableTime = vulnerableTime;
+
+            // if all lives had been lost then die
+            if (lives == 0)
+            {
+                actState = BossState.dying;
+            }
+            // go to the next position
+            else
+            {
+                shield.SetActive(true);
+                actWaitingTime = waitInterval;
+                actState = BossState.beingHurt;
+            }
+        }
+    }
 
     public void startFight()
     {
@@ -52,15 +86,31 @@ public class Boss : MonoBehaviour
         // fill the queue with random shooting actions
         for (int i = 0; i < explosionsByLevel; i++)
         {
-            actionList.Enqueue((BossState)System.Enum.Parse(typeof(BossState), bossStates[Random.Range(0, 2)]));
+            actionQueue.Enqueue((BossState)System.Enum.Parse(typeof(BossState), bossStates[Random.Range(0, 2)]));
         }
         // at the end of the individual level, one state has to exist where the enemy is exposed
-        actionList.Enqueue(BossState.vulnerable);
+        actionQueue.Enqueue(BossState.vulnerable);
+    }
+
+    private void FillPositionQueue()
+    {
+        // fill the queue with boss positions
+        foreach(Transform pos in bossPositions)
+        {
+            positionQueue.Enqueue(pos.position);
+        }
+    }
+
+    private bool ShouldBeTurning()
+    {
+        return ((actState != BossState.walking && actState != BossState.beingHurt && actState != BossState.dying));
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        FillPositionQueue();
+
         actVulnerableTime = vulnerableTime;
         actWaitingTime = 0.0f;
 
@@ -71,19 +121,24 @@ public class Boss : MonoBehaviour
 
         shield = gameObject.transform.GetChild(1).gameObject;
         anim = gameObject.GetComponent<Animation>();
+        navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+        cameraScript = camera.gameObject.GetComponent<BossFightCamera>();
         actState = BossState.idle;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // only testing the fight has begun abiilty
-        if ((tmpTester -= Time.deltaTime) < 0.0f)
+        if (ShouldBeTurning())
         {
-            fightHasBegun = true;
+            Vector3 targetDirection = target.transform.position - transform.position;
+            Vector3 lookAtTarget = Vector3.RotateTowards(transform.forward, targetDirection, 1.0f * Time.deltaTime, 0.0f);
+            lookAtTarget.y = 0;
+
+            transform.rotation = Quaternion.LookRotation(lookAtTarget);
         }
 
-        if (actionList.Count == 0)
+        if (actionQueue.Count == 0)
         {
             FillActionQueue();
         }
@@ -102,7 +157,7 @@ public class Boss : MonoBehaviour
                 if (fightHasBegun == true && actWaitingTime <= 0.0f)
                 {
                     actWaitingTime = waitInterval;
-                    actState = actionList.Dequeue();
+                    actState = actionQueue.Dequeue();
                 }
                 break;
             case BossState.walking:
@@ -110,8 +165,11 @@ public class Boss : MonoBehaviour
                 {
                     anim.Play(WALKING_ANIMATION);
                 }
-                // move by increment to a keyposition
-                // if in the position, change state
+
+                if (transform.position == targetPosition)
+                {
+                    actState = BossState.idle;
+                }
                 break;
             case BossState.shootingExplosive:
                 HandleMissileShooting("explosive", explosiveMissileTexture);
@@ -131,7 +189,41 @@ public class Boss : MonoBehaviour
                 if (actVulnerableTime < 0.0f)
                 {
                     shield.SetActive(true);
+                    actVulnerableTime = vulnerableTime;
                     actState = BossState.idle;
+                }
+                break;
+            case BossState.beingHurt:
+                actWaitingTime -= Time.deltaTime;
+
+                if (!anim.IsPlaying(TAKE_DAMAGE_ANIMATION))
+                {
+                    anim.Play(TAKE_DAMAGE_ANIMATION);
+                }
+
+                if (actWaitingTime <= 0.0f)
+                {
+                    actWaitingTime = waitInterval;
+                    cameraScript.nextPosition();
+                    actState = BossState.walking;
+                    targetPosition = positionQueue.Dequeue();
+                    targetPosition.y = transform.position.y;
+                    navMeshAgent.SetDestination(targetPosition);
+                }
+                break;
+            case BossState.dying:
+                if (!anim.IsPlaying(DYING_ANIMATION))
+                {
+                    anim.Play(DYING_ANIMATION);
+
+                    if (hasDied == true)
+                    {
+                        arena.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+                        gameObject.SetActive(false);
+                        Destroy(gameObject);
+                    }
+
+                    hasDied = true;
                 }
                 break;
         }
