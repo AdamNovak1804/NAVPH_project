@@ -28,10 +28,10 @@ public class FinishScreenController: MonoBehaviour
     {
         Time.timeScale = 0f;
         score.text = "Score: " + stats.score.ToString();
-        score.text = "Time: " + stats.time.ToString();
-        score.text = "Enemies killed: " + stats.enemiesKilled.ToString();
+        time.text = "Time: " + Mathf.RoundToInt(stats.time).ToString();
+        enemies.text = "Enemies killed: " + stats.enemiesKilled.ToString();
         var total = ComputeScore(stats.score, stats.time, stats.enemiesKilled);
-        score.text = "Total score: " + total.ToString();
+        totalScore.text = "Total score: " + total.ToString();
 
         ShowSprite(total);
     }
