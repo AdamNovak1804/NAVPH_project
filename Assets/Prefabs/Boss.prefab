@@ -1242,7 +1242,7 @@ GameObject:
   - component: {fileID: 7043101261982865689}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1297,14 +1297,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 533b5e2b259a1eb4e863f4f00da643a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lives: 3
   missileDelay: 0.7
-  missile: {fileID: 8694531514430345173, guid: 7280c2d41d40aab4e92750e4d5ecc817, type: 3}
   tmpTester: 5
   explosiveMissileDamage: 2
   explosionsByLevel: 5
+  waitInterval: 2
   vulnerableTime: 5
   explosiveMissileTexture: {fileID: 2800000, guid: 2c01bb44969037e4db79b1f0e89b666c, type: 3}
   breakingMissileTexture: {fileID: 2800000, guid: d22ee39b214c98a4aab247228b4ee192, type: 3}
+  missile: {fileID: 8694531514430345173, guid: 7280c2d41d40aab4e92750e4d5ecc817, type: 3}
+  target: {fileID: 0}
 --- !u!136 &3816871687126560877
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1313,7 +1316,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8354130404617246748}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 3.8
@@ -1330,7 +1333,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0

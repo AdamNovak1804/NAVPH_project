@@ -97,7 +97,7 @@ public class PlayerStats : MonoBehaviour
     public void UseAmmo() 
     {
         ammo -= 1;
-        UpdateAmmo(ammo);
+        //UpdateAmmo(ammo);
     }
 
     public void DrainHealth(float value) 
