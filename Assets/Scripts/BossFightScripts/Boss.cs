@@ -12,6 +12,7 @@ public class Boss : MonoBehaviour
     public float waitInterval = 2.0f;
     public float vulnerableTime = 5.0f;
     
+    public Transform[] bossPositions;
     public Texture explosiveMissileTexture;
     public Texture breakingMissileTexture;
     public GameObject missile;
@@ -40,12 +41,14 @@ public class Boss : MonoBehaviour
         vulnerable
     }
 
+    private Vector3 targetPosition;
     private GameObject shield;
     private Dictionary<int, string> bossStates;
     private Animation anim;
     private BossState actState;
     private BossFightCamera cameraScript;
-    private Queue<BossState> actionList = new Queue<BossState>();
+    private Queue<BossState> actionQueue = new Queue<BossState>();
+    private Queue<Vector3> positionQueue = new Queue<Vector3>();
 
     public void TakeDamage()
     {
@@ -65,10 +68,19 @@ public class Boss : MonoBehaviour
         // fill the queue with random shooting actions
         for (int i = 0; i < explosionsByLevel; i++)
         {
-            actionList.Enqueue((BossState)System.Enum.Parse(typeof(BossState), bossStates[Random.Range(0, 2)]));
+            actionQueue.Enqueue((BossState)System.Enum.Parse(typeof(BossState), bossStates[Random.Range(0, 2)]));
         }
         // at the end of the individual level, one state has to exist where the enemy is exposed
-        actionList.Enqueue(BossState.vulnerable);
+        actionQueue.Enqueue(BossState.vulnerable);
+    }
+
+    private void FillPositionQueue()
+    {
+        // fill the queue with boss positions
+        foreach(Transform pos in bossPositions)
+        {
+            positionQueue.Enqueue(pos.position);
+        }
     }
 
     private bool ShouldBeTurning()
@@ -79,6 +91,8 @@ public class Boss : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        FillPositionQueue();
+
         actVulnerableTime = vulnerableTime;
         actWaitingTime = 0.0f;
 
@@ -111,7 +125,7 @@ public class Boss : MonoBehaviour
             fightHasBegun = true;
         }
 
-        if (actionList.Count == 0)
+        if (actionQueue.Count == 0)
         {
             FillActionQueue();
         }
@@ -130,7 +144,7 @@ public class Boss : MonoBehaviour
                 if (fightHasBegun == true && actWaitingTime <= 0.0f)
                 {
                     actWaitingTime = waitInterval;
-                    actState = actionList.Dequeue();
+                    actState = actionQueue.Dequeue();
                 }
                 break;
             case BossState.walking:
@@ -138,8 +152,12 @@ public class Boss : MonoBehaviour
                 {
                     anim.Play(WALKING_ANIMATION);
                 }
-                // move by increment to a keyposition
-                // if in the position, change state
+
+                if (targetPosition == null)
+                {
+                    targetPosition = positionQueue.Dequeue();
+                }
+
                 break;
             case BossState.shootingExplosive:
                 HandleMissileShooting("explosive", explosiveMissileTexture);
@@ -172,6 +190,7 @@ public class Boss : MonoBehaviour
 
                 if (actWaitingTime <= 0.0f)
                 {
+                    actWaitingTime = waitInterval;
                     cameraScript.nextPosition();
                     actState = BossState.walking;
                 }

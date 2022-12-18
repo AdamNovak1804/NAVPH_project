@@ -1304,10 +1304,14 @@ MonoBehaviour:
   explosionsByLevel: 5
   waitInterval: 2
   vulnerableTime: 5
+  bossPositions:
+  - {fileID: 0}
+  - {fileID: 0}
   explosiveMissileTexture: {fileID: 2800000, guid: 2c01bb44969037e4db79b1f0e89b666c, type: 3}
   breakingMissileTexture: {fileID: 2800000, guid: d22ee39b214c98a4aab247228b4ee192, type: 3}
   missile: {fileID: 8694531514430345173, guid: 7280c2d41d40aab4e92750e4d5ecc817, type: 3}
   target: {fileID: 0}
+  camera: {fileID: 0}
 --- !u!136 &3816871687126560877
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1319,7 +1323,7 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 3.8
+  m_Height: 3.7
   m_Direction: 1
   m_Center: {x: 0, y: 1.8, z: 0}
 --- !u!54 &7043101261982865689
